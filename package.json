@@ -1,0 +1,7 @@
+{
+  "name": "cdn-manager",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "keenwon <semanwmj@yeah.net>",
+  "license": "MIT"
+}
