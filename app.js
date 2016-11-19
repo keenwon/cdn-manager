@@ -1,0 +1,37 @@
+'use strict';
+
+const koa = require('koa');
+const app = koa();
+const serve = require('koa-static');
+const Pug = require('koa-pug');
+
+const config = require('./config');
+const error = require('./lib/error');
+const bodyParser = require('./lib/bodyParser');
+const logger = require('./lib/logger');
+const router = require('./router');
+
+// logger
+logger.register(app);
+app.use(logger.useGlobalLogger());
+
+// exception handler
+app.use(error);
+
+// view engine
+const IS_DEVELOPMENT = app.env === 'development';
+const pug = new Pug({
+  viewPath: './site/views',
+  basedir: './site/views',
+  noCache: IS_DEVELOPMENT,
+  debug: IS_DEVELOPMENT,
+  app: app
+});
+
+// bodyParser
+app.use(bodyParser);
+
+// router
+app.use(router);
+
+app.listen(config['app.port'] || 3000);
