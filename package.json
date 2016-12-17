@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "NODE_ENV=development DEBUG=* nodemon --ignore logs/ --ignore client/ app.js"
   },
   "author": "keenwon <semanwmj@yeah.net>",
   "license": "MIT",
