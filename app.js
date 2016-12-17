@@ -2,7 +2,6 @@
 
 const koa = require('koa');
 const app = koa();
-const serve = require('koa-static');
 const Pug = require('koa-pug');
 
 const config = require('./config');
@@ -10,6 +9,7 @@ const error = require('./lib/error');
 const bodyParser = require('./lib/bodyParser');
 const logger = require('./lib/logger');
 const router = require('./router');
+const serve = require('./lib/static');
 const favicon = require('koa-favicon');
 
 // logger
@@ -31,6 +31,9 @@ const pug = new Pug({
 
 // favicon
 app.use(favicon('./favicon.ico'));
+
+// static
+app.use(serve());
 
 // bodyParser
 app.use(bodyParser);
