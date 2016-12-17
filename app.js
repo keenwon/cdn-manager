@@ -10,6 +10,7 @@ const error = require('./lib/error');
 const bodyParser = require('./lib/bodyParser');
 const logger = require('./lib/logger');
 const router = require('./router');
+const favicon = require('koa-favicon');
 
 // logger
 logger.register(app);
@@ -27,6 +28,9 @@ const pug = new Pug({
   debug: IS_DEVELOPMENT,
   app: app
 });
+
+// favicon
+app.use(favicon('./favicon.ico'));
 
 // bodyParser
 app.use(bodyParser);

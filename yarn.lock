@@ -935,6 +935,12 @@ koa-compose@^2.3.0:
   version "2.5.1"
   resolved "http://registry.npm.taobao.org/koa-compose/download/koa-compose-2.5.1.tgz#726cfb17694de5cb9fbf03c0adf172303f83f156"
 
+koa-favicon@^1.2.1:
+  version "1.2.1"
+  resolved "http://registry.npm.taobao.org/koa-favicon/download/koa-favicon-1.2.1.tgz#c001a6db6da6d71272b93fb5b924c392194821d0"
+  dependencies:
+    mz "^2.0.0"
+
 koa-is-json@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/koa-is-json/download/koa-is-json-1.0.0.tgz#273c07edcdcb8df6a2c1ab7d59ee76491451ec14"
@@ -1159,7 +1165,7 @@ ms@0.7.2:
   version "0.7.2"
   resolved "http://registry.npm.taobao.org/ms/download/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
 
-mz@^2.3.1:
+mz@^2.0.0, mz@^2.3.1:
   version "2.5.0"
   resolved "http://registry.npm.taobao.org/mz/download/mz-2.5.0.tgz#2859025df03d46b57bb317174b196477ce64cec1"
   dependencies:
