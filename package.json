@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "NODE_ENV=development DEBUG=* nodemon --ignore logs/ --ignore client/ app.js",
     "pro": "npm run build && NODE_ENV=production DEBUG=* node app.js",
-    "build": "NODE_ENV=production webpack --optimize-dedupe --optimize-occurrence-order --progress --colors --display-error-details --config webpack.config.js"
+    "build": "npm run clean && npm run build:js",
+    "build:js": "NODE_ENV=production webpack --optimize-dedupe --optimize-occurrence-order --progress --colors --display-error-details --config webpack.config.js",
+    "clean": "del client/scripts"
   },
   "author": "keenwon <semanwmj@yeah.net>",
   "license": "MIT",
@@ -29,6 +31,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-preset-es2015": "^6.18.0",
+    "del-cli": "^0.2.1",
     "koa-webpack-dev-middleware": "^1.3.0",
     "nodemon": "^1.11.0",
     "vue": "^2.1.6",
