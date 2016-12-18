@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "NODE_ENV=development DEBUG=* nodemon --ignore logs/ --ignore client/ app.js",
     "pro": "npm run build && NODE_ENV=production DEBUG=* node app.js",
-    "build": "npm run clean && npm run build:js",
+    "build": "npm test && npm run clean && npm run build:js",
     "build:js": "NODE_ENV=production webpack --optimize-dedupe --optimize-occurrence-order --progress --colors --display-error-details --config webpack.config.js",
     "clean": "del client/scripts",
     "test": "eslint --format 'node_modules/eslint-friendly-formatter' --ext .js,.vue client/src lib site *.js"
