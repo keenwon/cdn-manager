@@ -3,6 +3,7 @@
 const koa = require('koa');
 const app = koa();
 const Pug = require('koa-pug');
+const favicon = require('koa-favicon');
 
 const config = require('./config');
 const error = require('./lib/error');
@@ -11,7 +12,7 @@ const logger = require('./lib/logger');
 const router = require('./router');
 const serve = require('./lib/static');
 const scripts = require('./lib/scripts');
-const favicon = require('koa-favicon');
+const assets = require('./client/.assets.json');
 
 // env
 const IS_DEVELOPMENT = app.env === 'development';
@@ -29,7 +30,13 @@ const pug = new Pug({
   basedir: './site/views',
   noCache: IS_DEVELOPMENT,
   debug: IS_DEVELOPMENT,
-  app: app
+  app: app,
+  locals: IS_DEVELOPMENT
+    ? {
+      vendor: { js: 'vendor.js' },
+      app: { js: 'app.js' }
+    }
+    : assets
 });
 
 // favicon
