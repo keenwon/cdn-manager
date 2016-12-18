@@ -25,7 +25,7 @@ app.use(logger.useGlobalLogger());
 app.use(error);
 
 // view engine
-const pug = new Pug({
+new Pug({
   viewPath: './site/views',
   basedir: './site/views',
   noCache: IS_DEVELOPMENT,
