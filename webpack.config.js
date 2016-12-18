@@ -12,14 +12,6 @@ function getPath(jsPath) {
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const filename = IS_DEVELOPMENT ? 'app.js' : 'app.[hash].js';
 const vendorname = IS_DEVELOPMENT ? 'vendor.js' : 'vendor.[hash].js';
-var babelPlugins = IS_DEVELOPMENT ? [
-  'transform-async-to-generator',
-  'transform-object-rest-spread'
-] : [
-  'transform-async-to-generator',
-  'transform-object-rest-spread',
-  'transform-runtime'
-];
 
 var config = {
   entry: {
@@ -51,14 +43,7 @@ var config = {
       },
       {
         test: /\.js$/,
-        loader: 'babel',
-        exclude: /node_modules/,
-        query: {
-          presets: [
-            'es2015'
-          ],
-          plugins: babelPlugins
-        }
+        loader: 'babel'
       }
     ]
   }
