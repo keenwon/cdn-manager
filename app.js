@@ -10,7 +10,11 @@ const bodyParser = require('./lib/bodyParser');
 const logger = require('./lib/logger');
 const router = require('./router');
 const serve = require('./lib/static');
+const scripts = require('./lib/scripts');
 const favicon = require('koa-favicon');
+
+// env
+const IS_DEVELOPMENT = app.env === 'development';
 
 // logger
 logger.register(app);
@@ -20,7 +24,6 @@ app.use(logger.useGlobalLogger());
 app.use(error);
 
 // view engine
-const IS_DEVELOPMENT = app.env === 'development';
 const pug = new Pug({
   viewPath: './site/views',
   basedir: './site/views',
@@ -31,6 +34,9 @@ const pug = new Pug({
 
 // favicon
 app.use(favicon('./favicon.ico'));
+
+// javascript
+app.use(scripts(IS_DEVELOPMENT));
 
 // static
 app.use(serve());
