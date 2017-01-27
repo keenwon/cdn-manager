@@ -25,6 +25,7 @@ var config = {
     filename: filename
   },
   resolve: {
+    extensions: ['', '.js', '.vue', '.json'],
     root: path.resolve('./node_modules')
   },
   plugins: [
