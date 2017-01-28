@@ -2436,7 +2436,7 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
-koa-compose@^2.3.0:
+koa-compose@^2.3.0, koa-compose@^2.5.1:
   version "2.5.1"
   resolved "http://registry.npm.taobao.org/koa-compose/download/koa-compose-2.5.1.tgz#726cfb17694de5cb9fbf03c0adf172303f83f156"
 

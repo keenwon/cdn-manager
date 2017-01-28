@@ -16,6 +16,7 @@
     "co-body": "^4.2.0",
     "fs-extra": "^1.0.0",
     "koa": "^1.2.4",
+    "koa-compose": "^2.5.1",
     "koa-favicon": "^1.2.1",
     "koa-pug": "^3.0.0-1",
     "koa-router": "^5.4.0",
