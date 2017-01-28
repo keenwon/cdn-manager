@@ -5,6 +5,6 @@ const pageRouter = require('./site/routers/page');
 const apiRouter = require('./site/routers/api');
 
 module.exports = compose([
-  pageRouter.routes(),
-  apiRouter.routes()
+  apiRouter.routes(),
+  pageRouter.routes()
 ]);
