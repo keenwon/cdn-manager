@@ -1,14 +1,19 @@
 <template>
-  <p>{{ message }}</p>
+  <div id="app">
+    <comHeader></comHeader>
+    <comWorkspace></comWorkspace>
+  </div>
 </template>
 
 <script>
+  import comHeader from './components/Head';
+  import comWorkspace from './components/Workspace';
+
   export default {
     name: 'app',
-    data() {
-      return {
-        message: 'Hello World!'
-      }
+    components: {
+      comHeader,
+      comWorkspace
     }
   }
 </script>
