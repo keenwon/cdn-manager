@@ -17,7 +17,7 @@
     "co-body": "^4.2.0",
     "css-loader": "^0.26.1",
     "fs-extra": "^1.0.0",
-    "koa": "^1.2.4",
+    "koa": "next",
     "koa-compose": "^2.5.1",
     "koa-favicon": "^1.2.1",
     "koa-pug": "^3.0.0-1",
