@@ -1,5 +1,6 @@
 'use strict';
 
+const semver = require('semver');
 const koa = require('koa');
 const app = koa();
 const Pug = require('koa-pug');
@@ -13,6 +14,10 @@ const router = require('./router');
 const serve = require('./lib/static');
 const scripts = require('./lib/scripts');
 const assets = require('./client/.assets.json');
+
+if(!semver.satisfies(process.version, '>= 7')) {
+  throw new Error(`node version must >= 7, current version is ${process.version}`);
+}
 
 // env
 const IS_DEVELOPMENT = app.env === 'development';
