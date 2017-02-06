@@ -9,10 +9,9 @@ function getPath(jsPath) {
 }
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
-const filename = IS_DEVELOPMENT ? 'app.js' : 'app.[chunkhash:6].js';
-const vendorname = IS_DEVELOPMENT ? 'vendor.js' : 'vendor.[chunkhash:6].js';
+const filename = IS_DEVELOPMENT ? '[name].js' : '[name].[chunkhash:6].js';
 
-var config = {
+const config = {
   entry: {
     'app': getPath('client/src/main.js'),
     'vendor': [
@@ -21,7 +20,8 @@ var config = {
   },
   output: {
     path: getPath('client/scripts/'),
-    filename: filename
+    filename: filename,
+    chunkFilename: filename
   },
   resolve: {
     extensions: ['', '.js', '.vue', '.json'],
@@ -33,7 +33,10 @@ var config = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     }),
-    new webpack.optimize.CommonsChunkPlugin('vendor', vendorname)
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['vendor', 'manifest'],
+      minChunks: Infinity
+    })
   ],
   module: {
     loaders: [
@@ -50,7 +53,7 @@ var config = {
 };
 
 if (IS_DEVELOPMENT) {
-  config.devtool = 'eval-cheap-module-source-map';
+  config.devtool = 'cheap-module-eval-source-map';
 } else {
   let assetsPluginInstance = new AssetsPlugin({
       path: 'client',

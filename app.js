@@ -33,6 +33,7 @@ new Pug({
   app: app,
   locals: IS_DEVELOPMENT
     ? {
+      manifest: { js: 'manifest.js'},
       vendor: { js: 'vendor.js' },
       app: { js: 'app.js' }
     }
