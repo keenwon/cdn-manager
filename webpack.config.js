@@ -13,10 +13,7 @@ const filename = IS_DEVELOPMENT ? '[name].js' : '[name].[chunkhash:6].js';
 
 const config = {
   entry: {
-    'app': getPath('client/src/main.js'),
-    'vendor': [
-      'vue'
-    ]
+    'app': getPath('client/src/main.js')
   },
   output: {
     path: getPath('client/scripts/'),
@@ -24,8 +21,7 @@ const config = {
     chunkFilename: filename
   },
   resolve: {
-    extensions: ['', '.js', '.vue', '.json'],
-    root: path.resolve('./node_modules')
+    extensions: ['.js', '.vue', '.json']
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -34,7 +30,13 @@ const config = {
       }
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['vendor', 'manifest'],
+      name: 'vendor',
+      minChunks: function (module) {
+        return module.context && module.context.indexOf('node_modules') !== -1;
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
       minChunks: Infinity
     })
   ],
@@ -42,11 +44,11 @@ const config = {
     loaders: [
       {
         test: /\.vue$/,
-        loader: 'vue'
+        loader: 'vue-loader'
       },
       {
         test: /\.js$/,
-        loader: 'babel'
+        loader: 'babel-loader'
       }
     ]
   }
@@ -66,6 +68,7 @@ if (IS_DEVELOPMENT) {
     });
 
   config.plugins = config.plugins.concat([
+    new webpack.HashedModuleIdsPlugin(),
     assetsPluginInstance,
     uglifyJsPlugin
   ]);

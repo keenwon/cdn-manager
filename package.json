@@ -6,7 +6,7 @@
     "dev": "NODE_ENV=development DEBUG=* nodemon --ignore logs/ --ignore client/ app.js",
     "pro": "npm run build && NODE_ENV=production DEBUG=* node app.js",
     "build": "npm test && npm run clean && npm run build:js",
-    "build:js": "NODE_ENV=production webpack --optimize-dedupe --optimize-occurrence-order --progress --colors --display-error-details --config webpack.config.js",
+    "build:js": "NODE_ENV=production webpack --bail --progress --display-chunks --display-modules --config webpack.config.js",
     "clean": "rm -rf client/scripts",
     "test": "eslint --format 'node_modules/eslint-friendly-formatter' --ext .js,.vue client/src lib site *.js"
   },
@@ -44,6 +44,6 @@
     "vue": "^2.1.10",
     "vue-loader": "^10.1.0",
     "vue-template-compiler": "^2.1.10",
-    "webpack": "^1.14.0"
+    "webpack": "^2.2.1"
   }
 }
