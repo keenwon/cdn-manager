@@ -4,10 +4,10 @@
       <div class="item">
         <h2>CDN管理工具</h2>
       </div>
-      <a class="item" href="javascript:;">
+      <div class="active item">
         <i class="recycle icon"></i>
         缓存清理
-      </a>
+      </div>
     </div>
   </div>
 </template>
