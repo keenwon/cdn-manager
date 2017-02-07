@@ -1,14 +1,14 @@
 'use strict';
 
 const semver = require('semver');
-const koa = require('koa');
-const app = koa();
+const Koa = require('koa');
+const app = new Koa();
 const Pug = require('koa-pug');
+const bodyParser = require('koa-bodyparser');
 const favicon = require('koa-favicon');
 
 const config = require('./config');
 const error = require('./lib/error');
-const bodyParser = require('./lib/bodyParser');
 const logger = require('./lib/logger');
 const router = require('./router');
 const serve = require('./lib/static');
@@ -52,10 +52,10 @@ app.use(favicon('./favicon.ico'));
 app.use(scripts(IS_DEVELOPMENT));
 
 // static
-app.use(serve());
+app.use(serve);
 
 // bodyParser
-app.use(bodyParser);
+app.use(bodyParser());
 
 // router
 app.use(router);
