@@ -13,7 +13,9 @@ const filename = IS_DEVELOPMENT ? '[name].js' : '[name].[chunkhash:6].js';
 
 const config = {
   entry: {
-    'app': getPath('client/src/main.js')
+    'app': [
+      getPath('client/src/main.js')
+    ]
   },
   output: {
     path: getPath('client/scripts/'),
@@ -55,7 +57,21 @@ const config = {
 };
 
 if (IS_DEVELOPMENT) {
+  // config.entry = Object.keys(config.entry).map(item => item.push(
+  //   'webpack-hot-middleware/client'
+  // ));
+
+  Object.keys(config.entry).forEach(name => {
+    config.entry[name].push('webpack-hot-middleware/client')
+  });
   config.devtool = 'cheap-module-eval-source-map';
+  config.output.publicPath = '/scripts/';
+
+  config.plugins = config.plugins.concat([
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+  ]);
+
 } else {
   let assetsPluginInstance = new AssetsPlugin({
       path: 'client',

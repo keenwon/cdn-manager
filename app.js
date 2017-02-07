@@ -49,7 +49,7 @@ new Pug({
 app.use(favicon('./favicon.ico'));
 
 // javascript
-app.use(scripts(IS_DEVELOPMENT));
+scripts(app, IS_DEVELOPMENT);
 
 // static
 app.use(serve);
