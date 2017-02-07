@@ -8,7 +8,7 @@
     "build": "npm test && npm run clean && npm run build:js",
     "build:js": "NODE_ENV=production webpack --bail --progress --display-chunks --display-modules --config webpack.config.js",
     "clean": "rm -rf client/scripts",
-    "test": "eslint --format 'node_modules/eslint-friendly-formatter' --ext .js,.vue client/src lib site *.js"
+    "test": "eslint --format 'node_modules/eslint-friendly-formatter' --ext .js,.vue --ignore-pattern *.pug \"client/src/**\" \"lib/**\" \"site/**\" *.js"
   },
   "author": "keenwon <semanwmj@yeah.net>",
   "license": "MIT",
