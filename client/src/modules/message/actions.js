@@ -1,5 +1,7 @@
 import * as types from './types';
 
+let timer;
+
 export default {
   showSuccessMessage (context, message) {
     context.commit({
@@ -8,7 +10,8 @@ export default {
     });
 
     // auto hide
-    setTimeout(() => {
+    timer && clearTimeout(timer);
+    timer = setTimeout(() => {
       if (context.state.className !== 'green') {
         return;
       }
