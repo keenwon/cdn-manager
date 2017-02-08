@@ -6,6 +6,15 @@ export default {
       type: types.MESSAGE_SUCCESS,
       message
     });
+
+    // auto hide
+    setTimeout(() => {
+      if (context.state.className !== 'green') {
+        return;
+      }
+
+      context.dispatch('hideMessage');
+    }, 3000);
   },
 
   showFailMessage (context, message) {
