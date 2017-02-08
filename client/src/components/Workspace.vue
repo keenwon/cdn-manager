@@ -12,14 +12,27 @@
         <label>待清理的urls:</label>
         <textarea></textarea>
       </div>
-      <div class="ui primary button">
+      <div class="ui primary button" @click="showSuccessMessage('成功')">
         <i class="icon send"></i>
         Submit
       </div>
-      <div class="ui button">
+      <div class="ui button" @click="showFailMessage('失败')">
         <i class="icon trash"></i>
         Reset
       </div>
     </div>
   </div>
 </template>
+
+<script>
+  import { mapActions } from 'vuex';
+
+  export default {
+    methods: {
+      ...mapActions([
+        'showSuccessMessage',
+        'showFailMessage'
+      ])
+    }
+  }
+</script>

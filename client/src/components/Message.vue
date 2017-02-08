@@ -1,14 +1,34 @@
 <template>
-  <div class="ui info message cdn-message">
-    <i class="close icon"></i>
+  <div class="ui info message cdn-message" v-show="active" :class="className">
+    <i class="close icon" @click="hideMessage()"></i>
     <div class="header">提示</div>
-    <p>这里是提示信息</p>
+    <p>{{text}}</p>
   </div>
 </template>
 
+<script>
+  import { mapState, mapActions } from 'vuex';
+
+  export default {
+    computed: {
+      ...mapState({
+        active: state => state.message.active,
+        text: state => state.message.text,
+        className: state => state.message.className
+      })
+    },
+    methods: {
+      ...mapActions([
+        'hideMessage'
+      ])
+    }
+  }
+
+</script>
+
 <style>
   .cdn-message.ui.message {
-    width: 400px;
+    width: 300px;
     max-height: 92px;
     overflow-x: hidden;
     overflow-y: scroll;
