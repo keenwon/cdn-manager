@@ -1,8 +1,8 @@
 # cdn-manager
 
-chinanetcenter cdn manager
-
 [![Build Status][travis-image]][travis-url]
+
+chinanetcenter cdn manager
 
 ## TODO
 
