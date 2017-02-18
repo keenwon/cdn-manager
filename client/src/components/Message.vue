@@ -1,7 +1,7 @@
 <template>
   <transition name="a-message">
     <div class="ui info message cdn-message" v-show="active" :class="className">
-      <i class="close icon" @click="hideMessage()"></i>
+      <i class="close icon" @click="hideFn()"></i>
       <div class="header">提示</div>
       <p>{{text}}</p>
     </div>
@@ -9,21 +9,13 @@
 </template>
 
 <script>
-  import { mapState, mapActions } from 'vuex';
-
   export default {
-    computed: {
-      ...mapState({
-        active: state => state.message.active,
-        text: state => state.message.text,
-        className: state => state.message.className
-      })
-    },
-    methods: {
-      ...mapActions([
-        'hideMessage'
-      ])
-    }
+      props: {
+        active: Boolean,
+        text: String,
+        className: String,
+        hideFn: Function
+      }
   }
 </script>
 
