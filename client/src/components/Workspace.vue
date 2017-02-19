@@ -65,6 +65,11 @@
       }
     },
 
+    data: () => ({
+      isValid: false,
+      list: []
+    }),
+
     methods: {
       init() {
         let $editor = document.getElementById('editor');
@@ -92,15 +97,21 @@
       },
 
       input() {
-        if (!this.validate()) {
-          return;
+        let list;
+        let isValid = this.validate();
+
+        if (isValid) {
+          list = this.$editor.innerHTML
+            .split(/<.+?>/)
+            .filter(item => !!item);
+        } else {
+          list = [];
         }
 
-        let list = this.$editor.innerHTML
-          .split(/<.+?>/)
-          .filter(item => !!item);
+        this.list = list;
+        this.isValid = isValid;
 
-        this.$emit('change', list);
+        this.send();
       },
 
       focus() {
@@ -167,7 +178,7 @@
       },
 
       validate () {
-        let isValid = false;
+        let isValid = true;
         let $editor = this.$editor;
         let $p = $editor.querySelectorAll('p');
 
@@ -176,12 +187,18 @@
             isValid = false;
             p.style.color = this.errorColor;
           } else {
-            isValid = true;
             p.style.color = null;
           }
         });
 
         return isValid;
+      },
+
+      send() {
+        this.$emit('change', {
+          idValid: this.isValid,
+          list: this.list
+        })
       }
     },
 
