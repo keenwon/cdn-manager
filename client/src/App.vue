@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <comHeader></comHeader>
-    <comWorkspace></comWorkspace>
+    <router-view></router-view>
     <comMessage
       :active="message.active"
       :text="message.text"
@@ -17,7 +17,6 @@
 
   import comHeader from './components/Head';
   import comFoot from './components/Foot';
-  import comWorkspace from './components/Workspace';
   import comMessage from './components/Message';
 
   export default {
@@ -25,7 +24,6 @@
     components: {
       comHeader,
       comFoot,
-      comWorkspace,
       comMessage
     },
     computed: {

@@ -26,7 +26,7 @@
 
 <script>
   import { mapState, mapActions } from 'vuex';
-  import comEditor from './Editor';
+  import comEditor from '../components/Editor';
 
   export default {
     components: {
@@ -58,16 +58,3 @@
     }
   }
 </script>
-
-<style>
-  .editor-containor {
-    padding: 5px;
-    min-height: 200px;
-    border: 1px solid #ccc;
-  }
-  .editor-containor p {
-    height: 20px;
-    line-height: 20px;
-    margin: 0;
-  }
-</style>
