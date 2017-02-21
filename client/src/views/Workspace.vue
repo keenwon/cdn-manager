@@ -10,7 +10,9 @@
     <div class="ui form">
       <div class="field">
         <!--<label>待清理的urls:</label>-->
-        <comEditor :init-list="initList" @input="updateEditor" :placeholder="'请输入待清理的urls...'"></comEditor>
+        <comEditor :init-list="initList" @input="updateEditor">
+          <slot>请输入待清理的urls...</slot>
+        </comEditor>
       </div>
       <div class="ui primary button">
         <i class="icon send"></i>

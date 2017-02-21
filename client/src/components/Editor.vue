@@ -19,11 +19,11 @@
         default: () => []
       },
 
-      // 自动以placeholder
-      placeholder: {
-        type: String,
-        default: '请输入...'
-      },
+//      // 自动以placeholder
+//      placeholder: {
+//        type: String,
+//        default: '请输入...'
+//      },
 
       // 激活状态的文字颜色
       activeColor: {
@@ -57,9 +57,19 @@
     },
 
     data() {
+      let defaultSlot = this.$slots.default;
+      let placeholder;
+
+      if (!defaultSlot || !defaultSlot.length || !defaultSlot[0].text) {
+        placeholder = '请输入...';
+      } else {
+        placeholder = defaultSlot[0].text.trim();
+      }
+
       return {
         isValid: false,
-        editorList: this.initList
+        editorList: this.initList,
+        placeholder
       }
     },
 
