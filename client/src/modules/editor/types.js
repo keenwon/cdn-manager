@@ -1,2 +1,0 @@
-export const EDITOR_CLEAN = 'EDITOR_CLEAN';
-export const EDITOR_UPDATE = 'EDITOR_UPDATE';
