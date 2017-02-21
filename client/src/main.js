@@ -9,17 +9,25 @@ import AboutView from './views/About';
 
 Vue.use(VueRouter);
 
+const originalTitle = document.title;
+
 const router = new VueRouter({
   mode: 'history',
   routes: [
     {
       path: '/',
       name: 'workspace',
+      meta: {
+        title: '缓存清理'
+      },
       component: WorkspaceView
     },
     {
       path: '/about',
       name: 'about',
+      meta: {
+        title: '关于'
+      },
       component: AboutView
     },
     {
@@ -37,6 +45,13 @@ const router = new VueRouter({
       y: 0
     };
   }
+});
+
+// update document title
+router.afterEach(route => {
+  document.title = route.meta.title
+    ? `${route.meta.title} | ${originalTitle}`
+    : originalTitle;
 });
 
 sync(store, router);
