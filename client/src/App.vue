@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <comHeader></comHeader>
-    <comWorkspace @change="editorUpdate"></comWorkspace>
+    <comWorkspace></comWorkspace>
     <comMessage
       :active="message.active"
       :text="message.text"
@@ -36,10 +36,7 @@
     methods: {
       ...mapActions([
         'hideMessage'
-      ]),
-      editorUpdate(data) {
-        console.log(data); // eslint-disable-line
-      }
+      ])
     }
   }
 </script>
