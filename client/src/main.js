@@ -2,8 +2,10 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { sync } from 'vuex-router-sync';
 import store from './store';
+
 import App from './App';
 import WorkspaceView from './views/Workspace';
+import AboutView from './views/About';
 
 Vue.use(VueRouter);
 
@@ -12,7 +14,13 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
+      name: 'workspace',
       component: WorkspaceView
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: AboutView
     },
     {
       path: '*',

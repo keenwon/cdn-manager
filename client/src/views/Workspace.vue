@@ -1,6 +1,6 @@
 <template>
   <div class="ui container">
-    <div class="ui info message" style="margin-top: 2em;">
+    <div class="ui info message">
       <div class="header">操作说明：</div>
       <ul class="list">
         <li>一行填写一个url，单次最多20条。</li>
@@ -9,8 +9,8 @@
     </div>
     <div class="ui form">
       <div class="field">
-        <label>待清理的urls:</label>
-        <comEditor :init-list="initList" @input="updateEditor"></comEditor>
+        <!--<label>待清理的urls:</label>-->
+        <comEditor :init-list="initList" @input="updateEditor" :placeholder="'请输入待清理的urls...'"></comEditor>
       </div>
       <div class="ui primary button">
         <i class="icon send"></i>
@@ -58,3 +58,9 @@
     }
   }
 </script>
+
+<style>
+  .ui.form {
+    margin-top: 2em;
+  }
+</style>
