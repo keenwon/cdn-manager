@@ -7,14 +7,14 @@
         <li>url必须代表一个文件，不可以按目录清理。</li>
       </ul>
     </div>
-    <div class="ui form">
+    <div class="ui form" :class="{ loading: isLoading }">
       <div class="field">
         <!--<label>待清理的urls:</label>-->
-        <comEditor :init-list="initList" @input="updateEditor" :match="/^\w+$/">
+        <comEditor :init-list="initList" @input="updateEditor" :match="/^\w*$/">
           <slot>请输入待清理的urls...</slot>
         </comEditor>
       </div>
-      <div class="ui primary button">
+      <div class="ui primary button" @click="purge">
         <i class="icon send"></i>
         Submit
       </div>
@@ -43,14 +43,17 @@
 
     computed: {
       ...mapState({
-        editorList: state => state.editor.list
+        editorList: state => state.editor.list,
+        isLoading: state => state.workspace.isLoading
       })
     },
 
     methods: {
       ...mapActions([
         'updateEditor',
-        'cleanEditor'
+        'cleanEditor',
+        'showFailMessage',
+        'purge'
       ]),
 
       reset() {

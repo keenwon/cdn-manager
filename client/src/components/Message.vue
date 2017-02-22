@@ -26,6 +26,7 @@
     overflow-x: hidden;
     overflow-y: scroll;
     position: fixed;
+    z-index: 100;
     bottom: 30px;
     right: 40px;
     transition: right .5s;

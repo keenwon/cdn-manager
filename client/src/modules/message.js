@@ -5,15 +5,9 @@
 /**
  * types
  */
-const MESSAGE_SUCCESS = 'MESSAGE_SUCCESS';
-const MESSAGE_FAIL = 'MESSAGE_FAIL';
-const MESSAGE_HIDE = 'MESSAGE_HIDE';
-
-const types = {
-  [MESSAGE_SUCCESS]: MESSAGE_SUCCESS,
-  [MESSAGE_FAIL]: MESSAGE_FAIL,
-  [MESSAGE_HIDE]: MESSAGE_HIDE
-};
+export const MESSAGE_SUCCESS = 'MESSAGE_SUCCESS';
+export const MESSAGE_FAIL = 'MESSAGE_FAIL';
+export const MESSAGE_HIDE = 'MESSAGE_HIDE';
 
 /**
  * initial state
@@ -33,19 +27,19 @@ const state = {
  * mutations
  */
 const mutations = {
-  [types.MESSAGE_SUCCESS](state, { message }) {
+  [MESSAGE_SUCCESS](state, { message }) {
     state.active = true;
     state.className = 'green';
     state.text = message;
   },
 
-  [types.MESSAGE_FAIL](state, { message }) {
+  [MESSAGE_FAIL](state, { message }) {
     state.active = true;
     state.className = 'red';
     state.text = message;
   },
 
-  [types.MESSAGE_HIDE](state) {
+  [MESSAGE_HIDE](state) {
     state.active = false;
   }
 };
@@ -55,10 +49,10 @@ const mutations = {
  */
 let timer;
 
-const actions = {
+export const actions = {
   showSuccessMessage (context, message) {
     context.commit({
-      type: types.MESSAGE_SUCCESS,
+      type: MESSAGE_SUCCESS,
       message
     });
 
@@ -75,20 +69,19 @@ const actions = {
 
   showFailMessage (context, message) {
     context.commit({
-      type: types.MESSAGE_FAIL,
+      type: MESSAGE_FAIL,
       message
     });
   },
 
   hideMessage (context) {
     context.commit({
-      type: types.MESSAGE_HIDE
+      type: MESSAGE_HIDE
     });
   }
 };
 
 export default {
-  types,
   state,
   mutations,
   actions
