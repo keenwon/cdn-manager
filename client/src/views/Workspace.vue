@@ -23,17 +23,21 @@
         Reset
       </div>
     </div>
+    <comManifest></comManifest>
   </div>
 </template>
 
 <script>
   import { mapState, mapActions } from 'vuex';
   import { EDITOR_UPDATE, EDITOR_CLEAN, WORKSPACE_PURGE } from '../store/actionTypes';
+
   import comEditor from '../components/Editor';
+  import comManifest from '../components/Manifest';
 
   export default {
     components: {
-      comEditor
+      comEditor,
+      comManifest
     },
 
     data() {
