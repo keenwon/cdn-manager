@@ -1,5 +1,5 @@
 <template>
-  <div id="editor"
+  <div ref="editor"
        contenteditable="true"
        spellcheck="false"
        :class="className"
@@ -11,6 +11,8 @@
 </template>
 
 <script>
+  const placeholderId = '__editor__placeholder__';
+
   export default {
     props: {
       // 初始值
@@ -70,29 +72,32 @@
        * 初始化：根据props传入的值初始化Editor
        */
       init() {
-        let $editor = this.$editor = document.getElementById('editor');
+        let $editor = this.$refs.editor;
         let defaultContent = '';
-        let triggerValidate = false;
 
         if (this.editorList.length) {
           this.editorList.forEach(item => {
             defaultContent += `<p>${item}</p>`;
           });
-          triggerValidate = true;
         } else {
-          defaultContent = `<p>${this.placeholder}</p>`;
+          defaultContent = `<p id="${placeholderId}">${this.placeholder}</p>`;
         }
 
         $editor.innerHTML = defaultContent;
 
-        if (triggerValidate) {
-          this.input();
-        }
+        this.input();
       },
 
       input() {
+        let editorNode = this.$refs.editor.cloneNode(true);
+        let placeholderNode = editorNode.querySelector(`#${placeholderId}`);
+
+        if (placeholderNode) {
+          editorNode.removeChild(placeholderNode);
+        }
+
         this.isValid = this.validate();
-        this.editorList = this.$editor.innerHTML
+        this.editorList = editorNode.innerHTML
           .split(/<.+?>/)
           .filter(item => !!item);
 
@@ -100,7 +105,7 @@
       },
 
       focus() {
-        let $editor = this.$editor;
+        let $editor = this.$refs.editor;
 
         if ($editor.innerText.trim() === this.placeholder) {
           $editor.innerHTML = '<p></p>';
@@ -108,10 +113,10 @@
       },
 
       blur() {
-        let $editor = this.$editor;
+        let $editor = this.$refs.editor;
 
         if (!$editor.innerText.trim()) {
-          $editor.innerHTML = `<p>${this.placeholder}</p>`;
+          $editor.innerHTML = `<p id="${placeholderId}">${this.placeholder}</p>`;
         }
       },
 
@@ -159,7 +164,7 @@
        */
       validate () {
         let isValid = true;
-        let $editor = this.$editor;
+        let $editor = this.$refs.editor;
         let $p = $editor.querySelectorAll('p');
 
         $p.forEach(p => {

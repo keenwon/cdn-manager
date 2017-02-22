@@ -55,7 +55,6 @@
 
       reset() {
         this.initList = [];
-        this.cleanEditor();
       }
     }
   }
