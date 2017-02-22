@@ -1,7 +1,7 @@
 <template>
   <transition name="a-message">
     <div class="ui info message cdn-message" v-show="active" :class="className">
-      <i class="close icon" @click="hideFn()"></i>
+      <i class="close icon" @click="hideFn"></i>
       <div class="header">提示</div>
       <p>{{text}}</p>
     </div>
@@ -10,12 +10,12 @@
 
 <script>
   export default {
-      props: {
-        active: Boolean,
-        text: String,
-        className: String,
-        hideFn: Function
-      }
+    props: {
+      active: Boolean,
+      text: String,
+      className: String,
+      hideFn: Function
+    }
   }
 </script>
 

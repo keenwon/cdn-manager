@@ -14,6 +14,7 @@
 
 <script>
   import { mapState, mapActions } from 'vuex';
+  import { MESSAGE_HIDE } from './store/actionTypes';
 
   import comHeader from './components/Head';
   import comFoot from './components/Foot';
@@ -32,9 +33,9 @@
       })
     },
     methods: {
-      ...mapActions([
-        'hideMessage'
-      ])
+      ...mapActions({
+        hideMessage: MESSAGE_HIDE
+      })
     }
   }
 </script>
