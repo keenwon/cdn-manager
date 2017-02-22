@@ -30,6 +30,11 @@
       errorClass: {
         type: [Array, String],
         default: 'editor-error'
+      },
+
+      match: {
+        type: [RegExp, Function],
+        default: () => true
       }
     },
 
@@ -168,15 +173,24 @@
         let $p = $editor.querySelectorAll('p');
 
         $p.forEach(p => {
-          if (p.innerText === '1') {
+          if (this.test(p.innerText) || p.id === placeholderId) {
+            p.removeAttribute('class');
+          } else {
             isValid = false;
             p.setAttribute('class', this.errorClassName);
-          } else {
-            p.removeAttribute('class');
           }
         });
 
         return isValid;
+      },
+
+      /**
+       * 测试是否合法
+       */
+      test(value) {
+        return typeof this.match === 'function'
+          ? this.match.call(this, value)
+          : this.match.test(value)
       },
 
       /**

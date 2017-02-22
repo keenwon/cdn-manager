@@ -10,7 +10,7 @@
     <div class="ui form">
       <div class="field">
         <!--<label>待清理的urls:</label>-->
-        <comEditor :init-list="initList" @input="updateEditor">
+        <comEditor :init-list="initList" @input="updateEditor" :match="/^\w+$/">
           <slot>请输入待清理的urls...</slot>
         </comEditor>
       </div>
