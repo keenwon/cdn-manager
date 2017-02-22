@@ -1,8 +1,8 @@
 <template>
   <div id="editor"
-       class="editor-containor"
        contenteditable="true"
        spellcheck="false"
+       :class="className"
        @input="input"
        @focus="focus"
        @blur="blur"
@@ -19,34 +19,9 @@
         default: () => []
       },
 
-//      // 自动以placeholder
-//      placeholder: {
-//        type: String,
-//        default: '请输入...'
-//      },
-
-      // 激活状态的文字颜色
-      activeColor: {
-        type: String,
-        default: '#333'
-      },
-
-      // 非激活状态的文字颜色
-      inactiveColor: {
-        type: String,
-        default: '#999'
-      },
-
-      // 激活状态的背景
-      activeBackground: {
-        type: String,
-        default: '#fff'
-      },
-
-      // 非激活状态的背景
-      inactiveBackground: {
-        type: String,
-        default: '#f7f7f7'
+      className: {
+        type: [Array, String],
+        default: 'editor-containor'
       },
 
       // 错误状态的文字颜色
@@ -60,6 +35,7 @@
       let defaultSlot = this.$slots.default;
       let placeholder;
 
+      // 这里placeholder不能使用纯css实现，否则第一行没有p元素包裹
       if (!defaultSlot || !defaultSlot.length || !defaultSlot[0].text) {
         placeholder = '请输入...';
       } else {
@@ -94,7 +70,7 @@
        * 初始化：根据props传入的值初始化Editor
        */
       init() {
-        let $editor = document.getElementById('editor');
+        let $editor = this.$editor = document.getElementById('editor');
         let defaultContent = '';
         let triggerValidate = false;
 
@@ -108,10 +84,6 @@
         }
 
         $editor.innerHTML = defaultContent;
-        $editor.style.background = this.inactiveBackground;
-        $editor.style.color = this.inactiveColor;
-
-        this.$editor = $editor;
 
         if (triggerValidate) {
           this.input();
@@ -133,9 +105,6 @@
         if ($editor.innerText.trim() === this.placeholder) {
           $editor.innerHTML = '<p></p>';
         }
-
-        $editor.style.background = this.activeBackground;
-        $editor.style.color = this.activeColor;
       },
 
       blur() {
@@ -144,9 +113,6 @@
         if (!$editor.innerText.trim()) {
           $editor.innerHTML = `<p>${this.placeholder}</p>`;
         }
-
-        $editor.style.background = this.inactiveBackground;
-        $editor.style.color = this.inactiveColor;
       },
 
       paste(event) {
@@ -229,7 +195,13 @@
   .editor-containor {
     padding: 5px;
     min-height: 200px;
+    color: #999;
+    background: #f7f7f7;
     border: 1px solid #ccc;
+  }
+  .editor-containor:focus {
+    color: #333;
+    background: #fff;
   }
   .editor-containor p {
     height: 20px;
