@@ -47,6 +47,10 @@ const actions = {
       return dispatch(MESSAGE_FAIL, '请输入待清理的URL');
     }
 
+    if (list.length > 20) {
+      return dispatch(MESSAGE_FAIL, '单次清理最多20条');
+    }
+
     commit(_WORKSPACE_LOADING_START_);
 
     apis.purge(list)
