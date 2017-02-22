@@ -8,6 +8,7 @@
       :class-name="message.className"
       :hideFn="hideMessage">
     </comMessage>
+    <comBackTop></comBackTop>
     <comFoot></comFoot>
   </div>
 </template>
@@ -19,13 +20,15 @@
   import comHeader from './components/Head';
   import comFoot from './components/Foot';
   import comMessage from './components/Message';
+  import comBackTop from './components/BackTop';
 
   export default {
     name: 'app',
     components: {
       comHeader,
       comFoot,
-      comMessage
+      comMessage,
+      comBackTop
     },
     computed: {
       ...mapState({
