@@ -171,15 +171,25 @@
         let isValid = true;
         let $editor = this.$refs.editor;
         let $p = $editor.querySelectorAll('p');
+        let len = $p.length;
+        let innerText, p;
 
-        $p.forEach(p => {
-          if (this.test(p.innerText) || p.id === placeholderId) {
+        while (len--) {
+          p = $p[len];
+          innerText = p.innerText.trim();
+
+          // 忽略空行
+          if (!innerText) {
+            continue;
+          }
+
+          if (this.test(innerText) || p.id === placeholderId) {
             p.removeAttribute('class');
           } else {
             isValid = false;
             p.setAttribute('class', this.errorClassName);
           }
-        });
+        }
 
         return isValid;
       },
