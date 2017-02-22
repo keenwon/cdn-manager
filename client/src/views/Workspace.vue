@@ -28,6 +28,7 @@
 
 <script>
   import { mapState, mapActions } from 'vuex';
+  import { EDITOR_UPDATE, EDITOR_CLEAN, WORKSPACE_PURGE } from '../store/actionTypes';
   import comEditor from '../components/Editor';
 
   export default {
@@ -49,12 +50,11 @@
     },
 
     methods: {
-      ...mapActions([
-        'updateEditor',
-        'cleanEditor',
-        'showFailMessage',
-        'purge'
-      ]),
+      ...mapActions({
+        updateEditor: EDITOR_UPDATE,
+        cleanEditor: EDITOR_CLEAN,
+        purge: WORKSPACE_PURGE
+      }),
 
       reset() {
         this.initList = [];

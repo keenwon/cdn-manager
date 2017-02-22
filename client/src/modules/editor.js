@@ -2,16 +2,7 @@
  * Message Module
  */
 
-/**
- * types
- */
-const EDITOR_CLEAN = 'EDITOR_CLEAN';
-const EDITOR_UPDATE = 'EDITOR_UPDATE';
-
-const types = {
-  [EDITOR_CLEAN]: EDITOR_CLEAN,
-  [EDITOR_UPDATE]: EDITOR_UPDATE
-};
+import { EDITOR_UPDATE, EDITOR_CLEAN } from '../store/actionTypes';
 
 /**
  * initial state
@@ -27,13 +18,16 @@ const state = {
 /**
  * mutations
  */
+const _EDITOR_CLEAN_ = '_EDITOR_CLEAN_';
+const _EDITOR_UPDATE_ = '_EDITOR_UPDATE_';
+
 const mutations = {
-  [types.EDITOR_CLEAN](state) {
+  [_EDITOR_CLEAN_](state) {
     state.list = [];
     state.isValid = false;
   },
 
-  [types.EDITOR_UPDATE](state, { payload }) {
+  [_EDITOR_UPDATE_](state, { payload }) {
     state.list = payload.list;
     state.isValid = payload.isValid;
   }
@@ -43,22 +37,21 @@ const mutations = {
  * actions
  */
 const actions = {
-  cleanEditor (context) {
-    context.commit({
-      type: types.EDITOR_CLEAN
+  [EDITOR_CLEAN]({ commit }) {
+    commit({
+      type: _EDITOR_CLEAN_
     });
   },
 
-  updateEditor(context, payload) {
-    context.commit({
-      type: types.EDITOR_UPDATE,
+  [EDITOR_UPDATE]({ commit }, payload) {
+    commit({
+      type: _EDITOR_UPDATE_,
       payload
     });
   }
 };
 
 export default {
-  types,
   state,
   mutations,
   actions

@@ -3,12 +3,11 @@
  */
 
 import * as apis from '../api/workspace';
-
-/**
- * Types
- */
-const WORKSPACE_LOADING_START = 'WORKSPACE_LOADING_START';
-const WORKSPACE_LOADING_END = 'WORKSPACE_LOADING_END';
+import {
+  WORKSPACE_PURGE,
+  MESSAGE_SUCCESS,
+  MESSAGE_FAIL
+} from '../store/actionTypes';
 
 /**
  * State
@@ -20,12 +19,15 @@ const state = {
 /**
  * Mutation
  */
+const _WORKSPACE_LOADING_START_ = '_WORKSPACE_LOADING_START_';
+const _WORKSPACE_LOADING_END_ = '_WORKSPACE_LOADING_END_';
+
 const mutations = {
-  [WORKSPACE_LOADING_START](state) {
+  [_WORKSPACE_LOADING_START_](state) {
     state.isLoading = true;
   },
 
-  [WORKSPACE_LOADING_END](state) {
+  [_WORKSPACE_LOADING_END_](state) {
     state.isLoading = false;
   }
 };
@@ -34,28 +36,28 @@ const mutations = {
  * Actions
  */
 const actions = {
-  purge({ commit, dispatch, rootState }) {
+  [WORKSPACE_PURGE]({ commit, dispatch, rootState }) {
     let { isValid, list } = rootState.editor;
 
     if (!isValid) {
-      return dispatch('showFailMessage', '输入的内容有误，请修改后重试！');
+      return dispatch(MESSAGE_FAIL, '输入的内容有误，请修改后重试！');
     }
 
     if (!list.length) {
-      return dispatch('showFailMessage', '请输入待清理的URL');
+      return dispatch(MESSAGE_FAIL, '请输入待清理的URL');
     }
 
-    commit(WORKSPACE_LOADING_START);
+    commit(_WORKSPACE_LOADING_START_);
 
     apis.purge(list)
       .then(() => {
-        dispatch('showSuccessMessage', '清理成功');
+        dispatch(MESSAGE_SUCCESS, '清理成功');
       })
       .catch(error => {
-        dispatch('showFailMessage', error.text || '请求失败，请稍后再试！');
+        dispatch(MESSAGE_FAIL, error.text || '请求失败，请稍后再试！');
       })
       .then(() => {
-        commit(WORKSPACE_LOADING_END);
+        commit(_WORKSPACE_LOADING_END_);
       });
   }
 };

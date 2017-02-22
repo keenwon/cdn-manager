@@ -2,15 +2,14 @@
  * Message Module
  */
 
-/**
- * types
- */
-export const MESSAGE_SUCCESS = 'MESSAGE_SUCCESS';
-export const MESSAGE_FAIL = 'MESSAGE_FAIL';
-export const MESSAGE_HIDE = 'MESSAGE_HIDE';
+import {
+  MESSAGE_FAIL,
+  MESSAGE_HIDE,
+  MESSAGE_SUCCESS
+} from '../store/actionTypes';
 
 /**
- * initial state
+ * State
  */
 const state = {
   // message容器的class名
@@ -24,59 +23,63 @@ const state = {
 };
 
 /**
- * mutations
+ * Mutations
  */
+const _MESSAGE_SUCCESS_ = '_MESSAGE_SUCCESS_';
+const _MESSAGE_FAIL_ = '_MESSAGE_FAIL_';
+const _MESSAGE_HIDE_ = '_MESSAGE_HIDE_';
+
 const mutations = {
-  [MESSAGE_SUCCESS](state, { message }) {
+  [_MESSAGE_SUCCESS_](state, { message }) {
     state.active = true;
     state.className = 'green';
     state.text = message;
   },
 
-  [MESSAGE_FAIL](state, { message }) {
+  [_MESSAGE_FAIL_](state, { message }) {
     state.active = true;
     state.className = 'red';
     state.text = message;
   },
 
-  [MESSAGE_HIDE](state) {
+  [_MESSAGE_HIDE_](state) {
     state.active = false;
   }
 };
 
 /**
- * action
+ * Action
  */
 let timer;
 
 export const actions = {
-  showSuccessMessage (context, message) {
-    context.commit({
-      type: MESSAGE_SUCCESS,
+  [MESSAGE_SUCCESS] ({ commit, state }, message) {
+    commit({
+      type: _MESSAGE_SUCCESS_,
       message
     });
 
     // auto hide
     timer && clearTimeout(timer);
     timer = setTimeout(() => {
-      if (context.state.className !== 'green') {
+      if (state.className !== 'green') {
         return;
       }
 
-      context.dispatch('hideMessage');
+      commit(_MESSAGE_HIDE_);
     }, 3000);
   },
 
-  showFailMessage (context, message) {
-    context.commit({
-      type: MESSAGE_FAIL,
+  [MESSAGE_FAIL] ({ commit }, message) {
+    commit({
+      type: _MESSAGE_FAIL_,
       message
     });
   },
 
-  hideMessage (context) {
-    context.commit({
-      type: MESSAGE_HIDE
+  [MESSAGE_HIDE] ({ commit }) {
+    commit({
+      type: _MESSAGE_HIDE_
     });
   }
 };
