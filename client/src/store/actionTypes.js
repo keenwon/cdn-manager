@@ -15,3 +15,4 @@ export const EDITOR_UPDATE = 'EDITOR_UPDATE';
  * Workspace
  */
 export const WORKSPACE_PURGE = 'WORKSPACE_PURGE';
+export const WORKSPACE_TAGSWITCH = 'WORKSPACE_TAGSWITCH';

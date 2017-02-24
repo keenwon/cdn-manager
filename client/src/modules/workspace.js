@@ -5,6 +5,7 @@
 import * as apis from '../api/workspace';
 import {
   WORKSPACE_PURGE,
+  WORKSPACE_TAGSWITCH,
   MESSAGE_SUCCESS,
   MESSAGE_FAIL
 } from '../store/actionTypes';
@@ -13,7 +14,8 @@ import {
  * State
  */
 const state = {
-  isLoading: false
+  formLoading: false,
+  activeTab: 'history'
 };
 
 /**
@@ -21,14 +23,19 @@ const state = {
  */
 const _WORKSPACE_LOADING_START_ = '_WORKSPACE_LOADING_START_';
 const _WORKSPACE_LOADING_END_ = '_WORKSPACE_LOADING_END_';
+const _WORKSPACE_TAB_SWITCH_ = '_WORKSPACE_TAB_SWITCH_';
 
 const mutations = {
   [_WORKSPACE_LOADING_START_](state) {
-    state.isLoading = true;
+    state.formLoading = true;
   },
 
   [_WORKSPACE_LOADING_END_](state) {
-    state.isLoading = false;
+    state.formLoading = false;
+  },
+
+  [_WORKSPACE_TAB_SWITCH_](state, { tabName }) {
+    state.activeTab = tabName;
   }
 };
 
@@ -63,6 +70,13 @@ const actions = {
       .then(() => {
         commit(_WORKSPACE_LOADING_END_);
       });
+  },
+
+  [WORKSPACE_TAGSWITCH]({ commit }, tabName) {
+    commit({
+      type: _WORKSPACE_TAB_SWITCH_,
+      tabName
+    });
   }
 };
 
