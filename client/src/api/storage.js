@@ -10,15 +10,15 @@ export const pushHistory = urls => {
   return _push(types.history, urls);
 };
 
-export const pushCollection = collections => {
-};
+// export const pushCollection = collections => {
+// };
 
 export const removeHistory = id => {
   return _remove(types.history, id);
 };
 
-export const removeCollection = id => {
-};
+// export const removeCollection = id => {
+// };
 
 export const removeAllHistory = () => {
   return _removeAll(types.history);
@@ -38,6 +38,7 @@ const _push = (key, array) => {
   try {
     oldValue = JSON.parse(localStorage.getItem(key));
   } catch (e) {
+    // do nothing
   }
 
   if (!Array.isArray(oldValue)) {
@@ -56,6 +57,7 @@ const _remove = (key, id) => {
   try {
     oldValue = JSON.parse(localStorage.getItem(key));
   } catch (e) {
+    // do nothing
   }
 
   if (!Array.isArray(oldValue)) {
@@ -112,7 +114,7 @@ export const getStorageState = () => {
     state[key] = _formatSize(keyLen);
   }
 
-  state['total'] = formatSize(totle);
+  state['total'] = _formatSize(totle);
 
   return state;
 };
