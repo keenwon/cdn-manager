@@ -11,7 +11,7 @@ Object.keys(baseWebpackConfig.entry).forEach(name => {
 });
 
 module.exports = merge(baseWebpackConfig, {
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval-source-map',
   output: {
     publicPath: '/scripts/'
   },
