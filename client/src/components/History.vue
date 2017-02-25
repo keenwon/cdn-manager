@@ -1,10 +1,10 @@
 <template>
   <div class="ui bottom attached tab segment">
-    <div class="ui icon input cdn-history-filter">
+    <div class="ui icon input cdn-history-filter" v-show="!isEmpty">
       <input type="text" placeholder="筛选历史记录" v-model="keywords">
       <i class="remove link icon" @click="cleanKeywords"></i>
     </div>
-    <table class="ui striped table cdn-history-table" v-show="!isEmpty">
+    <table class="ui striped table cdn-history-table" v-show="!isEmpty && hasFilterResult">
       <thead>
       <tr>
         <th>文件类型</th>
@@ -29,6 +29,9 @@
       </tr>
       </tbody>
     </table>
+    <p class="cdn-empty" v-show="!isEmpty && !hasFilterResult">
+      找不到 <b>{{this.keywords}}</b> 相关的记录
+    </p>
     <p class="cdn-empty" v-show="isEmpty">暂无历史记录</p>
   </div>
 </template>
@@ -50,14 +53,17 @@
 
     data() {
       return {
-        keywords: '',
-        filteredList: this.list
+        keywords: ''
       }
     },
 
-    watch: {
-      keywords() {
-        this.filteredList = this.list
+    computed: {
+      isEmpty() {
+        return !this.list.length;
+      },
+
+      filteredList() {
+        return this.filteredList = this.list
           .filter(item => {
             return item.value.toLowerCase().includes(this.keywords.toLowerCase());
           })
@@ -66,12 +72,10 @@
               .replace(new RegExp(this.keywords, 'ig'), `<em>${this.keywords}</em>`);
             return item;
           });
-      }
-    },
+      },
 
-    computed: {
-      isEmpty() {
-        return !this.list.length;
+      hasFilterResult() {
+        return !!this.filteredList.length;
       }
     },
 
@@ -81,6 +85,10 @@
       },
 
       cleanKeywords() {
+        if (!this.keywords) {
+          return;
+        }
+
         this.keywords = '';
       }
     }
