@@ -55,38 +55,46 @@ const mutations = {
 const actions = {
   // 缓存清理
   [WORKSPACE_PURGE]({ commit, dispatch, rootState }) {
-    let { isValid, list } = rootState.editor;
+    return new Promise((resolve, reject) => {
+      let { isValid, list } = rootState.editor;
 
-    if (!isValid) {
-      return dispatch(MESSAGE_FAIL, '输入的内容有误，请修改后重试！');
-    }
+      if (!isValid) {
+        dispatch(MESSAGE_FAIL, '输入的内容有误，请修改后重试！');
+        return reject();
+      }
 
-    if (!list.length) {
-      return dispatch(MESSAGE_FAIL, '请输入待清理的URL');
-    }
+      if (!list.length) {
+        dispatch(MESSAGE_FAIL, '请输入待清理的URL');
+        return reject();
+      }
 
-    if (list.length > 20) {
-      return dispatch(MESSAGE_FAIL, '单次清理最多20条');
-    }
+      if (list.length > 20) {
+        dispatch(MESSAGE_FAIL, '单次清理最多20条');
+        return reject();
+      }
 
-    commit(_WORKSPACE_LOADING_START_);
+      commit(_WORKSPACE_LOADING_START_);
 
-    apis.purge(list)
-      .then(() => {
-        dispatch(MESSAGE_SUCCESS, '清理成功');
+      apis.purge(list)
+        .then(() => {
+          dispatch(MESSAGE_SUCCESS, '清理成功');
 
-        let newList = storage.pushHistory(list).reverse();
+          let newList = storage.pushHistory(list).reverse();
 
-        commit(_WORKSPACE_HISTORY_UPDATE_, {
-          urls: newList
+          commit(_WORKSPACE_HISTORY_UPDATE_, {
+            urls: newList
+          });
+
+          resolve();
+        })
+        .catch(error => {
+          dispatch(MESSAGE_FAIL, error.text || '请求失败，请稍后再试！');
+          reject();
+        })
+        .then(() => {
+          commit(_WORKSPACE_LOADING_END_);
         });
-      })
-      .catch(error => {
-        dispatch(MESSAGE_FAIL, error.text || '请求失败，请稍后再试！');
-      })
-      .then(() => {
-        commit(_WORKSPACE_LOADING_END_);
-      });
+    });
   },
 
   // 删除history

@@ -14,7 +14,7 @@
           <slot>请输入待清理的urls...</slot>
         </comEditor>
       </div>
-      <div class="ui primary button" @click="purge">
+      <div class="ui primary button" @click="submit">
         <i class="icon send"></i>
         Submit
       </div>
@@ -93,6 +93,16 @@
 
       reset() {
         this.initList = [];
+      },
+
+      submit() {
+        this.purge()
+          .then(() => {
+            this.reset();
+          })
+          .catch(() => {
+            // do nothing
+          });
       }
     }
   }
