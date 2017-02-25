@@ -10,7 +10,8 @@ import {
   MESSAGE_FAIL,
   WORKSPACE_PURGE,
   WORKSPACE_TAGSWITCH,
-  WORKSPACE_HISTORY_REMOVE
+  WORKSPACE_HISTORY_REMOVE,
+  WORKSPACE_HISTORY_PURGE
 } from '../store/actionTypes';
 
 /**
@@ -18,6 +19,7 @@ import {
  */
 const state = {
   formLoading: false,
+  historyLoadingId: '', // loading状态的那一条history
   activeTab: 'history',
   historyList: storage.getHistory().reverse(),
   collectionList: []
@@ -30,6 +32,8 @@ const _WORKSPACE_LOADING_START_ = '_WORKSPACE_LOADING_START_';
 const _WORKSPACE_LOADING_END_ = '_WORKSPACE_LOADING_END_';
 const _WORKSPACE_TAB_SWITCH_ = '_WORKSPACE_TAB_SWITCH_';
 const _WORKSPACE_HISTORY_UPDATE_ = '_WORKSPACE_HISTORY_UPDATE_';
+const _WORKSPACE_HISTORY_LOADING_START_ = '_WORKSPACE_HISTORY_LOADING_START_';
+const _WORKSPACE_HISTORY_LOADING_END_ = '_WORKSPACE_HISTORY_LOADING_END_';
 
 const mutations = {
   [_WORKSPACE_LOADING_START_](state) {
@@ -46,6 +50,14 @@ const mutations = {
 
   [_WORKSPACE_HISTORY_UPDATE_](state, { urls }) {
     state.historyList = urls;
+  },
+
+  [_WORKSPACE_HISTORY_LOADING_START_](state, { id }) {
+    state.historyLoadingId = id;
+  },
+
+  [_WORKSPACE_HISTORY_LOADING_END_](state) {
+    state.historyLoadingId = '';
   }
 };
 
@@ -93,6 +105,38 @@ const actions = {
         })
         .then(() => {
           commit(_WORKSPACE_LOADING_END_);
+        });
+    });
+  },
+
+  // 再次清理某次历史记录
+  [WORKSPACE_HISTORY_PURGE]({ commit, dispatch }, payload) {
+    commit({
+      type: _WORKSPACE_HISTORY_LOADING_START_,
+      id: payload.id
+    });
+
+    let list = [payload.url];
+
+    return new Promise((resolve, reject) => {
+      apis.purge(list)
+        .then(() => {
+          dispatch(MESSAGE_SUCCESS, '清理成功');
+
+          let newList = storage.pushHistory(list).reverse();
+
+          commit(_WORKSPACE_HISTORY_UPDATE_, {
+            urls: newList
+          });
+
+          resolve();
+        })
+        .catch(error => {
+          dispatch(MESSAGE_FAIL, error.text || '请求失败，请稍后再试！');
+          reject();
+        })
+        .then(() => {
+          commit(_WORKSPACE_HISTORY_LOADING_END_);
         });
     });
   },

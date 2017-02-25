@@ -38,8 +38,10 @@
       </div>
       <comHistory
         :list="historyList"
+        :loadingId="historyLoadingId"
         :class="{active: activeTab === 'history'}"
-        :remove="removeHistory">
+        :remove="removeHistory"
+        :purge="purgeHistory">
       </comHistory>
       <comCollection :class="{active: activeTab === 'collection'}"></comCollection>
     </div>
@@ -53,7 +55,8 @@
     EDITOR_CLEAN,
     WORKSPACE_PURGE,
     WORKSPACE_TAGSWITCH,
-    WORKSPACE_HISTORY_REMOVE
+    WORKSPACE_HISTORY_REMOVE,
+    WORKSPACE_HISTORY_PURGE
   } from '../store/actionTypes';
 
   import comEditor from '../components/Editor';
@@ -78,7 +81,8 @@
         editorList: state => state.editor.list,
         formLoading: state => state.workspace.formLoading,
         activeTab: state => state.workspace.activeTab,
-        historyList: state => state.workspace.historyList
+        historyList: state => state.workspace.historyList,
+        historyLoadingId: state => state.workspace.historyLoadingId
       })
     },
 
@@ -88,7 +92,8 @@
         cleanEditor: EDITOR_CLEAN,
         purge: WORKSPACE_PURGE,
         tabSwitch: WORKSPACE_TAGSWITCH,
-        removeHistory: WORKSPACE_HISTORY_REMOVE
+        removeHistory: WORKSPACE_HISTORY_REMOVE,
+        _purgeHistory: WORKSPACE_HISTORY_PURGE
       }),
 
       reset() {
@@ -103,6 +108,13 @@
           .catch(() => {
             // do nothing
           });
+      },
+
+      purgeHistory(id, url) {
+        this._purgeHistory({
+          id,
+          url
+        });
       }
     }
   }

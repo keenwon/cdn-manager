@@ -19,7 +19,9 @@
         <td v-html="item.valueForShow || item.value"></td>
         <td>{{timeage(item.timestamp)}}</td>
         <td class="right aligned">
-          <button class="ui primary basic button icon mini">
+          <button class="ui primary basic button icon mini"
+                  :class="{loading: loadingId===item.id}"
+                  @click="purge(item.id, item.value)">
             <i class="recycle icon"></i>
           </button>
           <button class="ui negative basic button icon mini" @click="remove(item.id)">
@@ -45,7 +47,15 @@
         type: Array,
         required: true
       },
+      loadingId: {
+        type: String,
+        default: ''
+      },
       remove: {
+        type: Function,
+        required: true
+      },
+      purge: {
         type: Function,
         required: true
       }
