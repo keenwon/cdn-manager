@@ -128,10 +128,11 @@
       paste(event) {
         event.preventDefault();
 
-        let rawHtml = event.clipboardData.getData("text/html");
+        let rawHtml = event.clipboardData.getData('text/html')
+          || event.clipboardData.getData('text/plain');
         let html = this.cleanPaste(rawHtml);
 
-        document.execCommand("insertHTML", false, html);
+        document.execCommand('insertHTML', false, html);
       },
 
       /**
