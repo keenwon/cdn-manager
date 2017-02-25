@@ -10,7 +10,7 @@
     <div class="ui form" :class="{ loading: formLoading }">
       <div class="field">
         <!--<label>待清理的urls:</label>-->
-        <comEditor :init-list="initList" @input="updateEditor" :match="/^\w*$/">
+        <comEditor :init-list="initList" @input="updateEditor" :match="/^[\w:\/]*$/">
           <slot>请输入待清理的urls...</slot>
         </comEditor>
       </div>
@@ -28,15 +28,15 @@
         <a class="item"
            :class="{active: activeTab === 'history'}"
            @click="tabSwitch('history')">
-          History
+          清理历史
         </a>
         <a class="item"
            :class="{active: activeTab === 'collection'}"
            @click="tabSwitch('collection')">
-          Collection
+          集合
         </a>
       </div>
-      <comHistory :class="{active: activeTab === 'history'}"></comHistory>
+      <comHistory :list="historyList" :class="{active: activeTab === 'history'}"></comHistory>
       <comCollection :class="{active: activeTab === 'collection'}"></comCollection>
     </div>
   </div>
@@ -72,7 +72,8 @@
       ...mapState({
         editorList: state => state.editor.list,
         formLoading: state => state.workspace.formLoading,
-        activeTab: state => state.workspace.activeTab
+        activeTab: state => state.workspace.activeTab,
+        historyList: state => state.workspace.historyList
       })
     },
 
@@ -97,5 +98,9 @@
   }
   .cdn-manifest {
     margin-top: 5em;
+  }
+  .cdn-empty {
+    text-align: center;
+    line-height: 10em;
   }
 </style>

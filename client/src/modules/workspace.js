@@ -3,11 +3,13 @@
  */
 
 import * as apis from '../api/workspace';
+import * as storage from '../api/storage';
+
 import {
-  WORKSPACE_PURGE,
-  WORKSPACE_TAGSWITCH,
   MESSAGE_SUCCESS,
-  MESSAGE_FAIL
+  MESSAGE_FAIL,
+  WORKSPACE_PURGE,
+  WORKSPACE_TAGSWITCH
 } from '../store/actionTypes';
 
 /**
@@ -15,7 +17,9 @@ import {
  */
 const state = {
   formLoading: false,
-  activeTab: 'history'
+  activeTab: 'history',
+  historyList: storage.getHistory().reverse(),
+  collectionList: []
 };
 
 /**
@@ -24,6 +28,7 @@ const state = {
 const _WORKSPACE_LOADING_START_ = '_WORKSPACE_LOADING_START_';
 const _WORKSPACE_LOADING_END_ = '_WORKSPACE_LOADING_END_';
 const _WORKSPACE_TAB_SWITCH_ = '_WORKSPACE_TAB_SWITCH_';
+const _WORKSPACE_HISTORY_UPDATE_ = '_WORKSPACE_HISTORY_UPDATE_';
 
 const mutations = {
   [_WORKSPACE_LOADING_START_](state) {
@@ -36,6 +41,10 @@ const mutations = {
 
   [_WORKSPACE_TAB_SWITCH_](state, { tabName }) {
     state.activeTab = tabName;
+  },
+
+  [_WORKSPACE_HISTORY_UPDATE_](state, { urls }) {
+    state.historyList = urls;
   }
 };
 
@@ -63,6 +72,11 @@ const actions = {
     apis.purge(list)
       .then(() => {
         dispatch(MESSAGE_SUCCESS, '清理成功');
+        let newList = storage.pushHistory(list);
+
+        commit(_WORKSPACE_HISTORY_UPDATE_, {
+          urls: newList.reverse()
+        });
       })
       .catch(error => {
         dispatch(MESSAGE_FAIL, error.text || '请求失败，请稍后再试！');
