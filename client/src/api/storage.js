@@ -123,7 +123,7 @@ function _remove(key, id) {
 
   localStorage.setItem(key, JSON.stringify(newValue));
 
-  return true;
+  return newValue;
 }
 
 /**

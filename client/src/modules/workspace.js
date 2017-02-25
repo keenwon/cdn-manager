@@ -9,7 +9,8 @@ import {
   MESSAGE_SUCCESS,
   MESSAGE_FAIL,
   WORKSPACE_PURGE,
-  WORKSPACE_TAGSWITCH
+  WORKSPACE_TAGSWITCH,
+  WORKSPACE_HISTORY_REMOVE
 } from '../store/actionTypes';
 
 /**
@@ -52,6 +53,7 @@ const mutations = {
  * Actions
  */
 const actions = {
+  // 缓存清理
   [WORKSPACE_PURGE]({ commit, dispatch, rootState }) {
     let { isValid, list } = rootState.editor;
 
@@ -72,10 +74,11 @@ const actions = {
     apis.purge(list)
       .then(() => {
         dispatch(MESSAGE_SUCCESS, '清理成功');
-        let newList = storage.pushHistory(list);
+
+        let newList = storage.pushHistory(list).reverse();
 
         commit(_WORKSPACE_HISTORY_UPDATE_, {
-          urls: newList.reverse()
+          urls: newList
         });
       })
       .catch(error => {
@@ -86,6 +89,16 @@ const actions = {
       });
   },
 
+  // 删除history
+  [WORKSPACE_HISTORY_REMOVE]({ commit }, id) {
+    let newList = storage.removeHistory(id).reverse();
+
+    commit(_WORKSPACE_HISTORY_UPDATE_, {
+      urls: newList
+    });
+  },
+
+  // tab切换
   [WORKSPACE_TAGSWITCH]({ commit }, tabName) {
     commit({
       type: _WORKSPACE_TAB_SWITCH_,

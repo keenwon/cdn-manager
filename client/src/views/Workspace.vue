@@ -36,7 +36,11 @@
           集合
         </a>
       </div>
-      <comHistory :list="historyList" :class="{active: activeTab === 'history'}"></comHistory>
+      <comHistory
+        :list="historyList"
+        :class="{active: activeTab === 'history'}"
+        :remove="removeHistory">
+      </comHistory>
       <comCollection :class="{active: activeTab === 'collection'}"></comCollection>
     </div>
   </div>
@@ -48,7 +52,8 @@
     EDITOR_UPDATE,
     EDITOR_CLEAN,
     WORKSPACE_PURGE,
-    WORKSPACE_TAGSWITCH
+    WORKSPACE_TAGSWITCH,
+    WORKSPACE_HISTORY_REMOVE
   } from '../store/actionTypes';
 
   import comEditor from '../components/Editor';
@@ -82,7 +87,8 @@
         updateEditor: EDITOR_UPDATE,
         cleanEditor: EDITOR_CLEAN,
         purge: WORKSPACE_PURGE,
-        tabSwitch: WORKSPACE_TAGSWITCH
+        tabSwitch: WORKSPACE_TAGSWITCH,
+        removeHistory: WORKSPACE_HISTORY_REMOVE
       }),
 
       reset() {

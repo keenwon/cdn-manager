@@ -18,14 +18,14 @@
           <button class="ui primary basic button icon mini">
             <i class="plus icon"></i>
           </button>
-          <button class="ui negative basic button icon mini">
+          <button class="ui negative basic button icon mini" @click="remove(item.id)">
             <i class="minus icon"></i>
           </button>
         </td>
       </tr>
       </tbody>
     </table>
-    <p class="cdn-history-empty" v-show="isEmpty">暂无历史记录</p>
+    <p class="cdn-empty" v-show="isEmpty">暂无历史记录</p>
   </div>
 </template>
 
@@ -34,8 +34,14 @@
 
   export default {
     props: {
-      list: Array,
-      default: []
+      list: {
+        type: Array,
+        required: true
+      },
+      remove: {
+        type: Function,
+        required: true
+      }
     },
 
     computed: {
