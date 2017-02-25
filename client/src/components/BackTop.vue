@@ -11,6 +11,31 @@
 <script>
   let timer;
 
+  /**
+   * 返回顶部
+   * @param duration 动画时长
+   */
+  const backTop = (duration = 350) => {
+    // 单次执行时间
+    const frame = 16.66667;
+
+    // 单次步长
+    let step = document.body.scrollTop / (duration / frame);
+
+    const run = () => {
+      if (document.body.scrollTop <= 0) {
+        return;
+      }
+
+      setTimeout(() => {
+        document.body.scrollTop -= step;
+        run();
+      }, frame);
+    };
+
+    run();
+  };
+
   export default {
     data() {
       return {
@@ -30,7 +55,7 @@
 
     methods: {
       click() {
-        window.scroll(0, 0);
+        backTop(150);
       }
     },
 
@@ -40,7 +65,7 @@
         this.scrollTop = document.body.scrollTop;
 
         this.show = this.scrollTop > this.clientHeight * 0.8;
-      }, 1000);
+      }, 100);
     },
 
     beforeDestroy() {
