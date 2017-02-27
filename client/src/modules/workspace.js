@@ -17,11 +17,13 @@ import {
 /**
  * State
  */
+let historyList = storage.getHistory();
+
 const state = {
   formLoading: false,
   historyLoadingId: '', // loading状态的那一条history
   activeTab: 'history',
-  historyList: storage.getHistory().reverse(),
+  historyList: Array.isArray(historyList) ? historyList.reverse() : [],
   collectionList: []
 };
 
