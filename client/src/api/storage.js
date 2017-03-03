@@ -22,9 +22,15 @@ export const getCollection = () => {
 
 /**
  * 添加History
+ *
+ * 如果存在collectionName，每项存储为{collectionName, url}
+ * 否则存储为 {url}
  */
-export const pushHistory = urls => {
-  return _push(types.history, urls);
+export const pushHistory = (urls, collectionName = '') => {
+  return _push(types.history, urls.map(url => ({
+    url,
+    collectionName
+  })));
 };
 
 /**

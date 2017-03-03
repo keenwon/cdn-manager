@@ -16,7 +16,14 @@
       <tbody>
       <tr v-for="item in filteredList" :key="item.id">
         <td>file</td>
-        <td v-html="highlight(item.value)"></td>
+        <td>
+          <div class="ui purple horizontal label"
+               v-if="item.value.collectionName"
+               :title="'来自集合：' + item.value.collectionName">
+            {{item.value.collectionName}}
+          </div>
+          <span v-html="highlight(item.value.url)"></span>
+        </td>
         <td>
           <span :title="formatDate(item.timestamp)">{{timeage(item.timestamp)}}</span>
         </td>
@@ -82,9 +89,9 @@
       },
 
       filteredList() {
-        return this.filteredList = this.list
+        return this.list
           .filter(item => {
-            return item.value.toLowerCase().includes(this.keywords.toLowerCase());
+            return item.value.url.toLowerCase().includes(this.keywords.toLowerCase());
           });
       },
 

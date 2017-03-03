@@ -155,8 +155,9 @@
        * 清理单条历史记录的缓存
        */
       purgeHistory(id, url) {
-        let options = { id, url };
-        this._purgeHistory(options)
+        let data = { id, url };
+
+        this._purgeHistory(data)
           .then(message => Message.success(message))
           .catch(error => Message.error(error));
       },
@@ -190,9 +191,14 @@
       /**
        * 清理单条Collection的缓存
        */
-      purgeCollection(id, urls) {
-        let options = { id, urls };
-        this._purgeCollection(options)
+      purgeCollection(id, item) {
+        let data = {
+          id,
+          name: item.name,
+          urls: item.list
+        };
+
+        this._purgeCollection(data)
           .then(message => Message.success(message))
           .catch(error => Message.error(error));
       },

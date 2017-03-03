@@ -181,11 +181,12 @@ const actions = {
     });
 
     let list = payload.urls;
+    let collectionName = payload.name;
 
     return new Promise((resolve, reject) => {
       apis.purge(list)
         .then(() => {
-          let newList = storage.pushHistory(list).reverse();
+          let newList = storage.pushHistory(list, collectionName).reverse();
 
           commit(_WORKSPACE_HISTORY_UPDATE_, {
             urls: newList
