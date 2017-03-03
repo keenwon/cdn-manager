@@ -47,7 +47,6 @@
   </div>
 </template>
 
-
 <script>
   import Timeago from 'timeago.js';
 

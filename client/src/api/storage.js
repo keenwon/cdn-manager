@@ -34,12 +34,19 @@ export const pushCollection = collections => {
   return _push(types.collection, collections);
 };
 
+/**
+ * 删除History
+ */
 export const removeHistory = id => {
   return _remove(types.history, id);
 };
 
-// export const removeCollection = id => {
-// };
+/**
+ * 删除Collection
+ */
+export const removeCollection = id => {
+  return _remove(types.collection, id);
+};
 
 export const removeAllHistory = () => {
   return _removeAll(types.history);

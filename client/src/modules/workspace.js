@@ -39,6 +39,8 @@ const _WORKSPACE_TAB_SWITCH_ = '_WORKSPACE_TAB_SWITCH_';
 const _WORKSPACE_HISTORY_UPDATE_ = '_WORKSPACE_HISTORY_UPDATE_';
 const _WORKSPACE_HISTORY_LOADING_START_ = '_WORKSPACE_HISTORY_LOADING_START_';
 const _WORKSPACE_HISTORY_LOADING_END_ = '_WORKSPACE_HISTORY_LOADING_END_';
+const _WORKSPACE_COLLECTION_LOADING_START_ = '_WORKSPACE_COLLECTION_LOADING_START_';
+const _WORKSPACE_COLLECTION_LOADING_END_ = '_WORKSPACE_COLLECTION_LOADING_END_';
 const _WORKSPACE_COLLECTION_UPDATE_ = '_WORKSPACE_COLLECTION_UPDATE_';
 
 const mutations = {
@@ -68,6 +70,14 @@ const mutations = {
 
   [_WORKSPACE_COLLECTION_UPDATE_](state, { collections }) {
     state.collectionList = collections;
+  },
+
+  [_WORKSPACE_COLLECTION_LOADING_START_](state, { id }) {
+    state.collectionLoadingId = id;
+  },
+
+  [_WORKSPACE_COLLECTION_LOADING_END_](state) {
+    state.collectionLoadingId = '';
   }
 };
 
@@ -141,13 +151,13 @@ const actions = {
 
   // 添加Collection
   [WORKSPACE_COLLECTION_UPDATE]({ commit }, payload) {
-    let collections = [payload];
+    let list = [payload];
 
     return new Promise((resolve) => {
-      let newCollections = storage.pushCollection(collections).reverse();
+      let newList = storage.pushCollection(list).reverse();
 
       commit(_WORKSPACE_COLLECTION_UPDATE_, {
-        collections: newCollections
+        collections: newList
       });
 
       resolve('添加成功');
@@ -155,7 +165,12 @@ const actions = {
   },
 
   // 删除Collection
-  [WORKSPACE_COLLECTION_REMOVE]() {
+  [WORKSPACE_COLLECTION_REMOVE]({ commit }, id) {
+    let newList = storage.removeCollection(id).reverse();
+
+    commit(_WORKSPACE_COLLECTION_UPDATE_, {
+      collections: newList
+    });
   },
 
   // 按照Collection清理缓存
