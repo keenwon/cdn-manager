@@ -47,7 +47,13 @@
         :remove="removeHistory"
         :purge="purgeHistory">
       </comHistory>
-      <comCollection :class="{active: activeTab === 'collection'}"></comCollection>
+      <comCollection
+        :list="collectionList"
+        :loadingId="collectionLoadingId"
+        :class="{active: activeTab === 'collection'}"
+        :remove="removeCollection"
+        :purge="purgeCollection">
+      </comCollection>
     </div>
   </div>
 </template>
@@ -61,7 +67,9 @@
     WORKSPACE_TAGSWITCH,
     WORKSPACE_HISTORY_REMOVE,
     WORKSPACE_HISTORY_PURGE,
-    WORKSPACE_COLLECTION_UPDATE
+    WORKSPACE_COLLECTION_UPDATE,
+    WORKSPACE_COLLECTION_REMOVE,
+    WORKSPACE_COLLECTION_PURGE
   } from '../store/actionTypes';
 
   import comEditor from '../components/Editor';
@@ -91,7 +99,9 @@
         formLoading: state => state.workspace.formLoading,
         activeTab: state => state.workspace.activeTab,
         historyList: state => state.workspace.historyList,
-        historyLoadingId: state => state.workspace.historyLoadingId
+        historyLoadingId: state => state.workspace.historyLoadingId,
+        collectionList: state => state.workspace.collectionList,
+        collectionLoadingId: state => state.workspace.collectionLoadingId,
       })
     },
 
@@ -103,7 +113,9 @@
         tabSwitch: WORKSPACE_TAGSWITCH,
         removeHistory: WORKSPACE_HISTORY_REMOVE,
         _purgeHistory: WORKSPACE_HISTORY_PURGE,
-        _createCollection: WORKSPACE_COLLECTION_UPDATE
+        _createCollection: WORKSPACE_COLLECTION_UPDATE,
+        removeCollection: WORKSPACE_COLLECTION_REMOVE,
+        purgeCollection: WORKSPACE_COLLECTION_PURGE
       }),
 
       /**

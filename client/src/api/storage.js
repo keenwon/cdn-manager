@@ -14,6 +14,13 @@ export const getHistory = () => {
 };
 
 /**
+ * 获取Collection
+ */
+export const getCollection = () => {
+  return _get(types.collection);
+};
+
+/**
  * 添加History
  */
 export const pushHistory = urls => {

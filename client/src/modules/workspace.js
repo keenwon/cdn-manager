@@ -10,20 +10,24 @@ import {
   WORKSPACE_TAGSWITCH,
   WORKSPACE_HISTORY_REMOVE,
   WORKSPACE_HISTORY_PURGE,
-  WORKSPACE_COLLECTION_UPDATE
+  WORKSPACE_COLLECTION_UPDATE,
+  WORKSPACE_COLLECTION_REMOVE,
+  WORKSPACE_COLLECTION_PURGE
 } from '../store/actionTypes';
 
 /**
  * State
  */
 let historyList = storage.getHistory();
+let collectionList = storage.getCollection();
 
 const state = {
   formLoading: false,
   historyLoadingId: '', // loading状态的那一条history
+  collectionLoadingId: '',
   activeTab: 'history',
   historyList: Array.isArray(historyList) ? historyList.reverse() : [],
-  collectionList: []
+  collectionList: Array.isArray(collectionList) ? collectionList.reverse() : [],
 };
 
 /**
@@ -148,6 +152,14 @@ const actions = {
 
       resolve('添加成功');
     });
+  },
+
+  // 删除Collection
+  [WORKSPACE_COLLECTION_REMOVE]() {
+  },
+
+  // 按照Collection清理缓存
+  [WORKSPACE_COLLECTION_PURGE]() {
   },
 
   // tab切换
