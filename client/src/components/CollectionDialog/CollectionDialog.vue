@@ -74,10 +74,12 @@
     methods: {
       open() {
         this.active = true;
+        document.body.style.overflowY = 'hidden';
       },
 
       close() {
         this.active = false;
+        document.body.style.overflowY = 'auto';
       },
 
       saveFn() {

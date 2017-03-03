@@ -21,9 +21,10 @@ export default function (options) {
   let instance = getInstance();
 
   Object.assign(instance, options, {
-    active: true,
     name: options.collectionName || ''
   });
+
+  instance.open();
 
   return instance;
 }
