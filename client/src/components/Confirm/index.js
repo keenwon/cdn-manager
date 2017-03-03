@@ -19,8 +19,14 @@ const getInstance = () => {
 
 export default function (options) {
   let instance = getInstance();
+  let defaultOptions = {
+    confirm: () => {
+    },
+    cancel: () => {
+    }
+  };
 
-  Object.assign(instance, options);
+  Object.assign(instance, defaultOptions, options);
 
   instance.open();
 

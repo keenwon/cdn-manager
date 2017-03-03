@@ -8,11 +8,11 @@
         <p class="cdn-confirm-message">{{message}}</p>
       </div>
       <div class="actions">
-        <div class="ui red basic cancel inverted button" @click="confirmFn">
+        <div class="ui red basic cancel inverted button" @click="cancelFn">
           <i class="remove icon"></i>
           No
         </div>
-        <div class="ui green ok inverted button" @click="cancelFn">
+        <div class="ui green ok inverted button" @click="confirmFn">
           <i class="checkmark icon"></i>
           Yes
         </div>

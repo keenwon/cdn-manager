@@ -33,7 +33,7 @@
                   @click="purge(item.id, item.value.url)">
             <i class="recycle icon"></i>
           </button>
-          <button class="ui negative basic button icon mini" @click="remove(item.id)">
+          <button class="ui negative basic button icon mini" @click="removeFn(item.id)">
             <i class="minus icon"></i>
           </button>
         </td>
@@ -56,6 +56,7 @@
 
 <script>
   import Timeago from 'timeago.js';
+  import Confirm from './Confirm';
 
   export default {
     props: {
@@ -143,6 +144,13 @@
         }
 
         this.keywords = '';
+      },
+
+      removeFn(id) {
+        Confirm({
+          message: '确认要删除此条历史记录吗？',
+          confirm: () => this.remove(id)
+        });
       }
     }
   }
