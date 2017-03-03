@@ -16,11 +16,15 @@
       </div>
       <div class="ui primary button" @click="submit">
         <i class="icon send"></i>
-        Submit
+        提交
+      </div>
+      <div class="ui green button" @click="createCollection">
+        <i class="icon plus"></i>
+        创建集合
       </div>
       <div class="ui button" @click="reset">
         <i class="icon trash"></i>
-        Reset
+        清空
       </div>
     </div>
     <div class="cdn-manifest">
@@ -64,6 +68,7 @@
   import comCollection from '../components/Collection';
 
   import Message from '../components/Message';
+  import Dialog from '../components/CollectionDialog';
 
   export default {
     components: {
@@ -80,6 +85,7 @@
 
     computed: {
       ...mapState({
+        editorIsValid: state => state.editor.isValid,
         editorList: state => state.editor.list,
         formLoading: state => state.workspace.formLoading,
         activeTab: state => state.workspace.activeTab,
@@ -118,6 +124,27 @@
         this._purgeHistory(options)
           .then(message => Message.success(message))
           .catch(error => Message.error(error));
+      },
+
+      createCollection() {
+        if (!this.editorIsValid) {
+          return Message.error('输入的URL有误，请修改后重试！');
+        }
+
+        if (!this.editorList.length) {
+          return Message.error('请输入待清理的url');
+        }
+
+        if (this.editorList.length > 20) {
+          return Message.error('一个集合最多20条url');
+        }
+
+        Dialog({
+          title: '创建合集',
+          list: this.editorList,
+          save: () => {
+          }
+        });
       }
     }
   }
