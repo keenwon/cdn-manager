@@ -133,8 +133,8 @@
         }
 
         return value.replace(
-          new RegExp(this.keywords, 'ig'),
-          `<em>${this.keywords}</em>`
+          new RegExp(`(${this.keywords})`, 'ig'),
+          `<em>$1</em>`
         );
       },
 
