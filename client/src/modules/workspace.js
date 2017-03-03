@@ -9,7 +9,8 @@ import {
   WORKSPACE_PURGE,
   WORKSPACE_TAGSWITCH,
   WORKSPACE_HISTORY_REMOVE,
-  WORKSPACE_HISTORY_PURGE
+  WORKSPACE_HISTORY_PURGE,
+  WORKSPACE_COLLECTION_UPDATE
 } from '../store/actionTypes';
 
 /**
@@ -34,6 +35,7 @@ const _WORKSPACE_TAB_SWITCH_ = '_WORKSPACE_TAB_SWITCH_';
 const _WORKSPACE_HISTORY_UPDATE_ = '_WORKSPACE_HISTORY_UPDATE_';
 const _WORKSPACE_HISTORY_LOADING_START_ = '_WORKSPACE_HISTORY_LOADING_START_';
 const _WORKSPACE_HISTORY_LOADING_END_ = '_WORKSPACE_HISTORY_LOADING_END_';
+const _WORKSPACE_COLLECTION_UPDATE_ = '_WORKSPACE_COLLECTION_UPDATE_';
 
 const mutations = {
   [_WORKSPACE_LOADING_START_](state) {
@@ -58,6 +60,10 @@ const mutations = {
 
   [_WORKSPACE_HISTORY_LOADING_END_](state) {
     state.historyLoadingId = '';
+  },
+
+  [_WORKSPACE_COLLECTION_UPDATE_](state, { collections }) {
+    state.collectionList = collections;
   }
 };
 
@@ -126,6 +132,21 @@ const actions = {
 
     commit(_WORKSPACE_HISTORY_UPDATE_, {
       urls: newList
+    });
+  },
+
+  // 添加Collection
+  [WORKSPACE_COLLECTION_UPDATE]({ commit }, payload) {
+    let collections = [payload];
+
+    return new Promise((resolve) => {
+      let newCollections = storage.pushCollection(collections).reverse();
+
+      commit(_WORKSPACE_COLLECTION_UPDATE_, {
+        collections: newCollections
+      });
+
+      resolve('添加成功');
     });
   },
 

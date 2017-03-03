@@ -20,8 +20,12 @@ export const pushHistory = urls => {
   return _push(types.history, urls);
 };
 
-// export const pushCollection = collections => {
-// };
+/**
+ * 添加Collection
+ */
+export const pushCollection = collections => {
+  return _push(types.collection, collections);
+};
 
 export const removeHistory = id => {
   return _remove(types.history, id);

@@ -60,7 +60,8 @@
     WORKSPACE_PURGE,
     WORKSPACE_TAGSWITCH,
     WORKSPACE_HISTORY_REMOVE,
-    WORKSPACE_HISTORY_PURGE
+    WORKSPACE_HISTORY_PURGE,
+    WORKSPACE_COLLECTION_UPDATE
   } from '../store/actionTypes';
 
   import comEditor from '../components/Editor';
@@ -101,13 +102,20 @@
         purge: WORKSPACE_PURGE,
         tabSwitch: WORKSPACE_TAGSWITCH,
         removeHistory: WORKSPACE_HISTORY_REMOVE,
-        _purgeHistory: WORKSPACE_HISTORY_PURGE
+        _purgeHistory: WORKSPACE_HISTORY_PURGE,
+        _createCollection: WORKSPACE_COLLECTION_UPDATE
       }),
 
+      /**
+       * 清空editor
+       */
       reset() {
         this.initList = [];
       },
 
+      /**
+       * 清理缓存
+       */
       submit() {
         if (!this.editorIsValid) {
           return Message.error('输入的内容有误，请修改后重试！');
@@ -131,6 +139,9 @@
           });
       },
 
+      /**
+       * 清理单条历史记录的缓存
+       */
       purgeHistory(id, url) {
         let options = { id, url };
         this._purgeHistory(options)
@@ -138,6 +149,9 @@
           .catch(error => Message.error(error));
       },
 
+      /**
+       * 创建集合
+       */
       createCollection() {
         if (!this.editorIsValid) {
           return Message.error('输入的URL有误，请修改后重试！');
@@ -154,7 +168,9 @@
         Dialog({
           title: '创建合集',
           list: this.editorList,
-          save: () => {
+          save: data => {
+            this._createCollection(data)
+              .then(message => Message.success(message))
           }
         });
       }

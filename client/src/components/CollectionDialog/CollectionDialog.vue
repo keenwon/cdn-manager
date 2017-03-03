@@ -6,7 +6,7 @@
         <div class="ui form" :class="{error: error}">
           <div class="field" :class="{error: error}">
             <label for="name">集合名称</label>
-            <input id="name" type="text" v-model="name" @input="validate">
+            <input id="name" type="text" spellcheck="false" v-model="name" @input="validate">
           </div>
           <div class="field">
             <label for="urls">URLs</label>
@@ -57,7 +57,7 @@
     data(){
       return {
         // 弹窗状态
-        active: true,
+        active: false,
         // 名称
         name: this.collectionName,
         // 名称错误

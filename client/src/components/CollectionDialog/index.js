@@ -20,7 +20,10 @@ const getInstance = () => {
 export default function (options) {
   let instance = getInstance();
 
-  Object.assign(instance, options);
+  Object.assign(instance, options, {
+    active: true,
+    name: options.collectionName || ''
+  });
 
   return instance;
 }
