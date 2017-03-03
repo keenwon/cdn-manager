@@ -63,6 +63,8 @@
   import comHistory from '../components/History';
   import comCollection from '../components/Collection';
 
+  import Message from '../components/Message';
+
   export default {
     components: {
       comEditor,
@@ -102,19 +104,20 @@
 
       submit() {
         this.purge()
-          .then(() => {
+          .then(message => {
+            Message.success(message);
             this.reset();
           })
-          .catch(() => {
-            // do nothing
+          .catch(error => {
+            Message.error(error);
           });
       },
 
       purgeHistory(id, url) {
-        this._purgeHistory({
-          id,
-          url
-        });
+        let options = { id, url };
+        this._purgeHistory(options)
+          .then(message => Message.success(message))
+          .catch(error => Message.error(error));
       }
     }
   }

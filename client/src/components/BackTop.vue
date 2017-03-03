@@ -79,7 +79,7 @@
     text-align: center;
     position: fixed;
     z-index: 10;
-    right: 20px;
+    right: 30px;
     bottom: 50px;
   }
   .cdn-backtop i {

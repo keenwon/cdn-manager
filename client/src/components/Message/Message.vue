@@ -1,7 +1,7 @@
 <template>
   <transition name="a-message">
     <div class="ui info message cdn-message" v-show="active" :class="className">
-      <i class="close icon" @click="hideFn"></i>
+      <i class="close icon" @click="close"></i>
       <div class="header">提示</div>
       <p>{{text}}</p>
     </div>
@@ -13,8 +13,14 @@
     props: {
       active: Boolean,
       text: String,
-      className: String,
-      hideFn: Function
+      className: String
+    },
+
+    methods: {
+      close() {
+        this.active = false;
+        this.text = '';
+      }
     }
   }
 </script>
@@ -28,7 +34,7 @@
     position: fixed;
     z-index: 100;
     bottom: 30px;
-    right: 40px;
+    right: 30px;
     transition: right .5s;
   }
   .cdn-message.ui.message.a-message-enter {
