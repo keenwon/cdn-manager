@@ -109,6 +109,18 @@
       },
 
       submit() {
+        if (!this.editorIsValid) {
+          return Message.error('输入的内容有误，请修改后重试！');
+        }
+
+        if (!this.editorList.length) {
+          return Message.error('请输入待清理的URL');
+        }
+
+        if (this.editorList.length > 20) {
+          return Message.error('单次清理最多20条');
+        }
+
         this.purge()
           .then(message => {
             Message.success(message);

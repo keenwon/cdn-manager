@@ -68,19 +68,7 @@ const actions = {
   // 缓存清理
   [WORKSPACE_PURGE]({ commit, rootState }) {
     return new Promise((resolve, reject) => {
-      let { isValid, list } = rootState.editor;
-
-      if (!isValid) {
-        return reject('输入的内容有误，请修改后重试！');
-      }
-
-      if (!list.length) {
-        return reject('请输入待清理的URL');
-      }
-
-      if (list.length > 20) {
-        return reject('单次清理最多20条');
-      }
+      let { list } = rootState.editor;
 
       commit(_WORKSPACE_LOADING_START_);
 
