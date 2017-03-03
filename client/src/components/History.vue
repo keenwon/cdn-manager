@@ -120,6 +120,10 @@
       },
 
       highlight(value) {
+        if (!this.keywords) {
+          return value;
+        }
+
         return value.replace(
           new RegExp(this.keywords, 'ig'),
           `<em>${this.keywords}</em>`
