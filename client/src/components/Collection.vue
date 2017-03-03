@@ -23,7 +23,7 @@
         <td class="right aligned">
           <button class="ui primary basic button icon mini"
                   :class="{loading: loadingId===item.id}"
-                  @click="purge(item.id, item.value)">
+                  @click="purge(item.id, item.value.list)">
             <i class="recycle icon"></i>
           </button>
           <button class="ui negative basic button icon mini" @click="remove(item.id)">

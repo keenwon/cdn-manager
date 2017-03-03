@@ -174,7 +174,32 @@ const actions = {
   },
 
   // 按照Collection清理缓存
-  [WORKSPACE_COLLECTION_PURGE]() {
+  [WORKSPACE_COLLECTION_PURGE]({ commit }, payload) {
+    commit({
+      type: _WORKSPACE_COLLECTION_LOADING_START_,
+      id: payload.id
+    });
+
+    let list = payload.urls;
+
+    return new Promise((resolve, reject) => {
+      apis.purge(list)
+        .then(() => {
+          let newList = storage.pushHistory(list).reverse();
+
+          commit(_WORKSPACE_HISTORY_UPDATE_, {
+            urls: newList
+          });
+
+          resolve('清理成功');
+        })
+        .catch(error => {
+          reject(error.text || '请求失败，请稍后再试！');
+        })
+        .then(() => {
+          commit(_WORKSPACE_COLLECTION_LOADING_END_);
+        });
+    });
   },
 
   // tab切换

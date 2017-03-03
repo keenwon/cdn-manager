@@ -115,7 +115,7 @@
         _purgeHistory: WORKSPACE_HISTORY_PURGE,
         _createCollection: WORKSPACE_COLLECTION_UPDATE,
         removeCollection: WORKSPACE_COLLECTION_REMOVE,
-        purgeCollection: WORKSPACE_COLLECTION_PURGE
+        _purgeCollection: WORKSPACE_COLLECTION_PURGE
       }),
 
       /**
@@ -185,7 +185,17 @@
               .then(message => Message.success(message))
           }
         });
-      }
+      },
+
+      /**
+       * 清理单条Collection的缓存
+       */
+      purgeCollection(id, urls) {
+        let options = { id, urls };
+        this._purgeCollection(options)
+          .then(message => Message.success(message))
+          .catch(error => Message.error(error));
+      },
     }
   }
 </script>
