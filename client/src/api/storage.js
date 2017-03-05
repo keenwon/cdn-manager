@@ -54,24 +54,36 @@ export const removeCollection = id => {
   return _remove(types.collection, id);
 };
 
-export const removeAllHistory = () => {
-  return _removeAll(types.history);
-};
+/**
+ * 清楚指定key的localStorage
+ */
+export function removeAll(type) {
+  let key = types[type];
 
-export const removeAllCollection = () => {
-  return _removeAll(types.collection);
-};
+  if (!key) {
+    return false;
+  }
+
+  localStorage.removeItem(key);
+  return true;
+}
 
 /**
  * 获取存储状态
  */
 export const getStorageState = () => {
   let totle = 0;
-  let state = [];
-  let key, keyLen;
+  let state = {};
+  let type, key, keyLen;
 
-  for (key in localStorage) {
-    if (!localStorage.hasOwnProperty(key)) {
+  for (type in types) {
+    if (!types.hasOwnProperty(type)) {
+      continue;
+    }
+
+    key = types[type];
+
+    if (!localStorage[key]) {
       continue;
     }
 
@@ -80,7 +92,7 @@ export const getStorageState = () => {
 
     totle += keyLen;
 
-    state[key] = _formatSize(keyLen);
+    state[type] = _formatSize(keyLen);
   }
 
   state['total'] = _formatSize(totle);
@@ -148,14 +160,6 @@ function _remove(key, id) {
   localStorage.setItem(key, JSON.stringify(newValue));
 
   return newValue;
-}
-
-/**
- * 清楚指定key的localStorage
- */
-function _removeAll(key) {
-  localStorage.removeItem(key);
-  return true;
 }
 
 /**

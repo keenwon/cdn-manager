@@ -12,7 +12,8 @@ import {
   WORKSPACE_HISTORY_PURGE,
   WORKSPACE_COLLECTION_UPDATE,
   WORKSPACE_COLLECTION_REMOVE,
-  WORKSPACE_COLLECTION_PURGE
+  WORKSPACE_COLLECTION_PURGE,
+  WORKSPACE_CLEAN
 } from '../store/actionTypes';
 
 /**
@@ -28,6 +29,7 @@ const state = {
   activeTab: 'history',
   historyList: Array.isArray(historyList) ? historyList.reverse() : [],
   collectionList: Array.isArray(collectionList) ? collectionList.reverse() : [],
+  storageState: storage.getStorageState()
 };
 
 /**
@@ -56,8 +58,9 @@ const mutations = {
     state.activeTab = tabName;
   },
 
-  [_WORKSPACE_HISTORY_UPDATE_](state, { urls }) {
-    state.historyList = urls;
+  [_WORKSPACE_HISTORY_UPDATE_](state, { list }) {
+    state.historyList = list;
+    state.storageState = storage.getStorageState();
   },
 
   [_WORKSPACE_HISTORY_LOADING_START_](state, { id }) {
@@ -68,8 +71,9 @@ const mutations = {
     state.historyLoadingId = '';
   },
 
-  [_WORKSPACE_COLLECTION_UPDATE_](state, { collections }) {
-    state.collectionList = collections;
+  [_WORKSPACE_COLLECTION_UPDATE_](state, { list }) {
+    state.collectionList = list;
+    state.storageState = storage.getStorageState();
   },
 
   [_WORKSPACE_COLLECTION_LOADING_START_](state, { id }) {
@@ -97,7 +101,7 @@ const actions = {
           let newList = storage.pushHistory(list).reverse();
 
           commit(_WORKSPACE_HISTORY_UPDATE_, {
-            urls: newList
+            list: newList
           });
 
           resolve('清理成功');
@@ -126,7 +130,7 @@ const actions = {
           let newList = storage.pushHistory(list).reverse();
 
           commit(_WORKSPACE_HISTORY_UPDATE_, {
-            urls: newList
+            list: newList
           });
 
           resolve('清理成功');
@@ -145,7 +149,7 @@ const actions = {
     let newList = storage.removeHistory(id).reverse();
 
     commit(_WORKSPACE_HISTORY_UPDATE_, {
-      urls: newList
+      list: newList
     });
   },
 
@@ -157,7 +161,7 @@ const actions = {
       let newList = storage.pushCollection(list).reverse();
 
       commit(_WORKSPACE_COLLECTION_UPDATE_, {
-        collections: newList
+        list: newList
       });
 
       resolve('添加成功');
@@ -169,7 +173,7 @@ const actions = {
     let newList = storage.removeCollection(id).reverse();
 
     commit(_WORKSPACE_COLLECTION_UPDATE_, {
-      collections: newList
+      list: newList
     });
   },
 
@@ -189,7 +193,7 @@ const actions = {
           let newList = storage.pushHistory(list, collectionName).reverse();
 
           commit(_WORKSPACE_HISTORY_UPDATE_, {
-            urls: newList
+            list: newList
           });
 
           resolve('清理成功');
@@ -200,6 +204,20 @@ const actions = {
         .then(() => {
           commit(_WORKSPACE_COLLECTION_LOADING_END_);
         });
+    });
+  },
+
+  // 清理localstorage
+  [WORKSPACE_CLEAN]({ commit }, type) {
+    storage.removeAll(type);
+
+    let mutation = type === 'history'
+      ? _WORKSPACE_HISTORY_UPDATE_
+      : _WORKSPACE_COLLECTION_UPDATE_;
+
+    commit({
+      type: mutation,
+      list: []
     });
   },
 

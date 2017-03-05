@@ -1,8 +1,16 @@
 <template>
-  <div class="ui bottom attached tab segment">
+  <div class="ui tab">
     <div class="ui icon input cdn-collection-filter" v-show="!isEmpty">
       <input type="text" placeholder="筛选集合" v-model="keywords">
       <i class="remove link icon" @click="cleanKeywords"></i>
+    </div>
+    <div class="ui left labeled button cdn-state">
+      <a class="ui basic label">
+        已使用 {{storageState}}
+      </a>
+      <div class="ui red icon button" @click="clean('collection')">
+        <i class="trash icon"></i>
+      </div>
     </div>
     <table class="ui green striped table cdn-collection-table" v-show="!isEmpty && hasFilterResult">
       <thead>
@@ -71,6 +79,14 @@
         required: true
       },
       purge: {
+        type: Function,
+        required: true
+      },
+      storageState: {
+        type: String,
+        default: '0'
+      },
+      clean: {
         type: Function,
         required: true
       }

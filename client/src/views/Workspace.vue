@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="cdn-manifest">
-      <div class="ui top attached tabular menu">
+      <div class="ui pointing secondary menu">
         <a class="item"
            :class="{active: activeTab === 'history'}"
            @click="tabSwitch('history')">
@@ -46,6 +46,8 @@
       <comHistory
         :list="historyList"
         :loadingId="historyLoadingId"
+        :storage-state="storageState.history"
+        :clean="clean"
         :class="{active: activeTab === 'history'}"
         :remove="removeHistory"
         :purge="purgeHistory">
@@ -53,6 +55,8 @@
       <comCollection
         :list="collectionList"
         :loadingId="collectionLoadingId"
+        :storage-state="storageState.collection"
+        :clean="clean"
         :class="{active: activeTab === 'collection'}"
         :remove="removeCollection"
         :purge="purgeCollection">
@@ -72,7 +76,8 @@
     WORKSPACE_HISTORY_PURGE,
     WORKSPACE_COLLECTION_UPDATE,
     WORKSPACE_COLLECTION_REMOVE,
-    WORKSPACE_COLLECTION_PURGE
+    WORKSPACE_COLLECTION_PURGE,
+    WORKSPACE_CLEAN
   } from '../store/actionTypes';
 
   import comEditor from '../components/Editor';
@@ -81,6 +86,7 @@
 
   import Message from '../components/Message';
   import Dialog from '../components/CollectionDialog';
+  import Confirm from '../components/Confirm';
 
   export default {
     components: {
@@ -105,6 +111,7 @@
         historyLoadingId: state => state.workspace.historyLoadingId,
         collectionList: state => state.workspace.collectionList,
         collectionLoadingId: state => state.workspace.collectionLoadingId,
+        storageState: state => state.workspace.storageState
       })
     },
 
@@ -118,7 +125,8 @@
         _purgeHistory: WORKSPACE_HISTORY_PURGE,
         _createCollection: WORKSPACE_COLLECTION_UPDATE,
         removeCollection: WORKSPACE_COLLECTION_REMOVE,
-        _purgeCollection: WORKSPACE_COLLECTION_PURGE
+        _purgeCollection: WORKSPACE_COLLECTION_PURGE,
+        _clean: WORKSPACE_CLEAN
       }),
 
       /**
@@ -205,6 +213,16 @@
           .then(message => Message.success(message))
           .catch(error => Message.error(error));
       },
+
+      /**
+       * 清理storage
+       */
+      clean(type) {
+        Confirm({
+          message: `确认要清空全部${type === 'history' ? '历史记录' : '集合'}吗？`,
+          confirm: () => this._clean(type)
+        });
+      }
     }
   }
 </script>
@@ -219,5 +237,14 @@
   .cdn-empty {
     text-align: center;
     line-height: 10em;
+  }
+  .cdn-state {
+    float: right;
+  }
+  .cdn-state a {
+    cursor: default !important;
+  }
+  .cdn-state .button {
+    cursor: pointer;
   }
 </style>
