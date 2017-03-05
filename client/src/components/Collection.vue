@@ -7,8 +7,8 @@
     <table class="ui green striped table cdn-collection-table" v-show="!isEmpty && hasFilterResult">
       <thead>
       <tr>
-        <th style="width: 25%">集合名称</th>
-        <th style="width: 45%">集合urls</th>
+        <th style="width: 20%">集合名称</th>
+        <th style="width: 55%">集合urls</th>
         <th>编辑时间</th>
         <th></th>
       </tr>
@@ -16,7 +16,12 @@
       <tbody>
       <tr v-for="item in filteredList" :key="item.id">
         <td v-html="highlight(item.value.name)"></td>
-        <td v-html="item.value.list.join('<br />')"></td>
+        <!--<td v-html="item.value.list.join('<br />')"></td>-->
+        <td>
+          <p v-for="url in item.value.list">
+            <a target="_blank" :href="url">{{url}}</a>
+          </p>
+        </td>
         <td>
           <span :title="formatDate(item.timestamp)">{{timeage(item.timestamp)}}</span>
         </td>
@@ -153,6 +158,10 @@
 <style>
   .ui.table.cdn-collection-table {
     margin: 15px auto;
+  }
+  .cdn-collection-table p {
+    margin: 0;
+    line-height: 1.6em;
   }
   .cdn-collection-table em {
     font-style: normal;

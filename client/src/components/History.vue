@@ -15,14 +15,14 @@
       </thead>
       <tbody>
       <tr v-for="item in filteredList" :key="item.id">
-        <td>file</td>
+        <td>{{getFileType(item.value.url)}}</td>
         <td>
-          <div class="ui purple horizontal label"
+          <div class="ui horizontal label"
                v-if="item.value.collectionName"
                :title="'来自集合：' + item.value.collectionName">
             {{item.value.collectionName}}
           </div>
-          <span v-html="highlight(item.value.url)"></span>
+          <a target="_blank" :href="item.value.url" v-html="highlight(item.value.url)"></a>
         </td>
         <td>
           <span :title="formatDate(item.timestamp)">{{timeage(item.timestamp)}}</span>
@@ -102,10 +102,17 @@
     },
 
     methods: {
+
+      /**
+       * 获取timeage
+       */
       timeage(timestamp) {
         return new Timeago().format(timestamp);
       },
 
+      /**
+       * 获取YYYY-MM-DD HH:mm:ss格式的日期
+       */
       formatDate(timestamp) {
         let date = new Date(+timestamp);
 
@@ -127,6 +134,35 @@
         return `${o.year}-${o.month}-${o.day} ${o.hour}:${o.min}:${o.sec}`;
       },
 
+      /**
+       * 获取文件扩展名
+       */
+      getFileType(url) {
+        let extension = url.split('.').pop();
+        let fileType;
+
+        switch (extension) {
+          case 'js':
+          case 'css':
+          case 'html':
+            fileType = extension;
+            break;
+          case 'jpg':
+          case 'png':
+          case 'gif':
+            fileType = 'image';
+            break;
+          default:
+            fileType = 'file';
+            break;
+        }
+
+        return fileType;
+      },
+
+      /**
+       * 高亮筛选关键字
+       */
       highlight(value) {
         if (!this.keywords) {
           return value;
@@ -138,6 +174,9 @@
         );
       },
 
+      /**
+       * 清空筛选
+       */
       cleanKeywords() {
         if (!this.keywords) {
           return;
@@ -146,6 +185,9 @@
         this.keywords = '';
       },
 
+      /**
+       * 删除单条History
+       */
       removeFn(id) {
         Confirm({
           message: '确认要删除此条历史记录吗？',
