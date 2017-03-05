@@ -14,7 +14,7 @@
 
 <style>
   .cdn-foot {
-    margin-top: 80px;
+    margin: 60px auto 30px auto;
   }
   .cdn-foot p {
     color: #696969;

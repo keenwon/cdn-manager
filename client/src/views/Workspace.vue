@@ -5,12 +5,15 @@
       <ul class="list">
         <li>一行填写一个url，单次最多20条。</li>
         <li>url必须代表一个文件，不可以按目录清理。</li>
+        <li>目前支持的域名有：cdn.bootcss.com（用该域名测试前端程序，并不能真正清理）</li>
       </ul>
     </div>
     <div class="ui form" :class="{ loading: formLoading }">
       <div class="field">
-        <!--<label>待清理的urls:</label>-->
-        <comEditor :init-list="initList" @input="updateEditor" :match="/^[\w:\/]*$/">
+        <comEditor
+          :init-list="initList"
+          @input="updateEditor"
+          :match="/^(https?:\/\/)cdn.bootcss.com(\/[\w\-\.]+)+\/([\w\.\-]+\.)+[a-z0-9]+$/i">
           <slot>请输入待清理的urls...</slot>
         </comEditor>
       </div>
