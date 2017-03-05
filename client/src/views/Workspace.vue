@@ -32,12 +32,16 @@
     </div>
     <div class="cdn-manifest">
       <div class="ui pointing secondary menu">
-        <a class="item"
+        <a href="#history"
+           name="history"
+           class="item"
            :class="{active: activeTab === 'history'}"
            @click="tabSwitch('history')">
           清理历史
         </a>
-        <a class="item"
+        <a href="#collection"
+           name="collection"
+           class="item"
            :class="{active: activeTab === 'collection'}"
            @click="tabSwitch('collection')">
           集合
